@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp"
+    tools:context=".activity.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_recipe_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/editText_input"
+        android:scrollbars="vertical" />
+
+    <EditText
+        android:id="@+id/editText_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/recycler_view_recipe_list"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/recycler_view_recipe_list"
+        android:layout_marginTop="18dp"
+        android:layout_toLeftOf="@+id/button_search"
+        android:layout_toStartOf="@+id/button_search"
+        android:ems="10"
+        android:hint="@string/hint_search"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/recycler_view_recipe_list"
+        android:layout_alignEnd="@+id/recycler_view_recipe_list"
+        android:layout_alignRight="@+id/recycler_view_recipe_list"
+        android:onClick="onClickSearchRecipe"
+        android:text="@string/btn_search" />
+
+</RelativeLayout>
