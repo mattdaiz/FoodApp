@@ -1,16 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.RecipeActivity">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textView_test"
+    <RelativeLayout
+        android:id="@+id/button_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="86dp" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/button_prep_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/buttonText_prep"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/button_footer">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView_Recipe_image"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:contentDescription="TODO"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:id="@+id/textView_recipeRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="330dp"
+                android:text="Overall Rating"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+
+            <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                android:id="@+id/ratingBar_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="300dp"
+                app:srb_isIndicator="true"
+                app:srb_numberOfStars="5"
+                app:srb_rating="0"
+                app:srb_starSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView_Recipe_image"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/textView_prepTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView_name"
+                android:layout_margin="8dp"
+                android:drawableLeft="@drawable/ic_chef"
+                android:drawableStart="@drawable/ic_chef"
+                android:text=" PrepTime"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView_yield"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView_prepTime"
+                android:layout_margin="8dp"
+                android:drawableLeft="@drawable/ic_cutlery"
+                android:drawableStart="@drawable/ic_cutlery"
+                android:text=" Yield"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/textView_ingredient_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView_yield"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="25dp"
+                android:text="Ingredients"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/textView_ingredient_header"
+                android:layout_margin="8dp"
+                android:scrollbars="vertical" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,9 +1,13 @@
-package com.foodapp.android.foodapp;
+package com.foodapp.android.foodapp.network;
+
+import com.foodapp.android.foodapp.model.RecipeInfo;
+import com.foodapp.android.foodapp.model.RecipeList;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -19,9 +23,13 @@ public interface GetRecipeDataService {
             //,@Query("start") int integerTwo
     );
 
-    /* Implement for RecipeActivity - the recipe details
-    @GET("/v1/api/recipe/{recipeid}")
-    Call<RecipeDetail> RecipeDetail
-            @Path("recipeid") String id
-    */
+    /* Implement for RecipeActivity - the recipe details */
+    @GET("/v1/api/recipe/{recipe-id}?")
+    Call<RecipeInfo> recipeDetail(
+            @Path("recipe-id")String search
+            ,@Query("_app_id") String id
+            ,@Query("_app_key") String key
+
+
+    );
 }

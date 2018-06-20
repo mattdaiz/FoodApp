@@ -1,4 +1,4 @@
-package com.foodapp.android.foodapp;
+package com.foodapp.android.foodapp.adapter;
 
 
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.foodapp.android.foodapp.activity.MainActivity;
+import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.activity.RecipeActivity;
+import com.foodapp.android.foodapp.model.Recipe;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -64,7 +65,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.txtRecipeLabel.setText(dataList.get(position).getRecipeName());
         holder.txtRecipeIngredients.setText(dataList.get(position).getIngredients());
         holder.txtRecipeRating.setText("Rating: " + dataList.get(position).getRating());
-        Picasso.get().load(dataList.get(position).getUrl().getImageUrl()).into(holder.imgFood);
+        Picasso.get().load(dataList.get(position).getUrl()).into(holder.imgFood);
+        Log.d("TAG", "Position: " + position);
     }
 
     @Override

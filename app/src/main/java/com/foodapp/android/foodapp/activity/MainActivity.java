@@ -1,6 +1,5 @@
 package com.foodapp.android.foodapp.activity;
 
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,15 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.foodapp.android.foodapp.GetRecipeDataService;
+import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.R;
-import com.foodapp.android.foodapp.Recipe;
-import com.foodapp.android.foodapp.RecipeAdapter;
-import com.foodapp.android.foodapp.RecipeList;
-import com.foodapp.android.foodapp.RetrofitInstance;
+import com.foodapp.android.foodapp.model.Recipe;
+import com.foodapp.android.foodapp.adapter.RecipeAdapter;
+import com.foodapp.android.foodapp.model.RecipeList;
+import com.foodapp.android.foodapp.network.RetrofitInstance;
 
 import java.util.ArrayList;
 

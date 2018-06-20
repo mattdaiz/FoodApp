@@ -1,5 +1,6 @@
-package com.foodapp.android.foodapp;
+package com.foodapp.android.foodapp.model;
 
+import com.foodapp.android.foodapp.model.Recipe;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

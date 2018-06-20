@@ -12,5 +12,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="recipeImage">recipeImage</string>
-    <string name="rating">Rating: %s</string>
+    <string name="prepTime">"Prep Time: %s"</string>
+    <string name="yield">Yield: %d</string>
+    <string name="buttonText_prep">View Preparation</string>
 </resources>

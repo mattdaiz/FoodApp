@@ -1,4 +1,4 @@
-package com.foodapp.android.foodapp;
+package com.foodapp.android.foodapp.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

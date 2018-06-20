@@ -1,21 +1,18 @@
-package com.foodapp.android.foodapp;
+package com.foodapp.android.foodapp.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import com.google.gson.annotations.Expose;
+import java.util.Map;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Recipe {
     // fields must have same names as fields in JSON. watch out!
     @SerializedName("recipeName")
-    @Expose
     private String recipeName;
     @SerializedName("id")
-    @Expose
     private String id;
     @SerializedName("imageUrlsBySize")
-    private ImageUrl Url;
+    private Map<String,String> Url;
     @SerializedName("ingredients")
     private ArrayList<String> ingredients;
     @SerializedName("rating")
@@ -29,8 +26,8 @@ public class Recipe {
         return id;
     }
 
-    public ImageUrl getUrl() {
-        return this.Url;
+    public String getUrl() {
+        return Url.get("90");
     }
 
     public String getIngredients() {
@@ -39,16 +36,5 @@ public class Recipe {
 
     public String getRating() {
         return rating;
-    }
-
-
-    // Sub class for Picture Url
-    class ImageUrl{
-        @SerializedName("90")
-        private String Url;
-
-        public String getImageUrl() {
-            return Url;
-        }
     }
 }
