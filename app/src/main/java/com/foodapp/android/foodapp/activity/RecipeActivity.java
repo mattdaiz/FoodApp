@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.adapter.IngredientAdapter;
-import com.foodapp.android.foodapp.model.Image;
-import com.foodapp.android.foodapp.model.RecipeInfo;
+import com.foodapp.android.foodapp.model.RecipeDetails.Image;
+import com.foodapp.android.foodapp.model.RecipeDetails.RecipeInfo;
 import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.network.RetrofitInstance;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;

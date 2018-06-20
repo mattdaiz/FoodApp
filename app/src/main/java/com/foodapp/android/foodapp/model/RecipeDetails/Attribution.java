@@ -1,4 +1,4 @@
-package com.foodapp.android.foodapp.model;
+package com.foodapp.android.foodapp.model.RecipeDetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

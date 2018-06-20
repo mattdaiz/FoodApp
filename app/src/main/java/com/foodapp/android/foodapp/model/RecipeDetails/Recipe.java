@@ -1,4 +1,4 @@
-package com.foodapp.android.foodapp.model;
+package com.foodapp.android.foodapp.model.RecipeDetails;
 
 import java.util.ArrayList;
 import java.util.Map;

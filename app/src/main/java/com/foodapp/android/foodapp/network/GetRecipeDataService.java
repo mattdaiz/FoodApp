@@ -1,9 +1,7 @@
 package com.foodapp.android.foodapp.network;
 
-import com.foodapp.android.foodapp.model.RecipeInfo;
-import com.foodapp.android.foodapp.model.RecipeList;
-
-import java.util.List;
+import com.foodapp.android.foodapp.model.RecipeDetails.RecipeInfo;
+import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

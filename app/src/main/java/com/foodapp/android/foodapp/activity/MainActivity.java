@@ -9,14 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.R;
-import com.foodapp.android.foodapp.model.Recipe;
+import com.foodapp.android.foodapp.model.RecipeDetails.Recipe;
 import com.foodapp.android.foodapp.adapter.RecipeAdapter;
-import com.foodapp.android.foodapp.model.RecipeList;
+import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
 import com.foodapp.android.foodapp.network.RetrofitInstance;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*Method to generate List of recipes using RecyclerView with custom adapter*/
-    private void generateRecipeList(ArrayList<Recipe> recipeDataList){
+    private void generateRecipeList(List<Match> recipeDataList){
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_recipe_list);
         adapter = new RecipeAdapter(recipeDataList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.e("OnResponse", "OK");
 //                Log.d("TEST", response.message());
 //                Log.d("TEST2", "TESTTEST" + response.body());
-                generateRecipeList(response.body().getRecipeList());
+                generateRecipeList(response.body().getMatches());
             }
 
             // 2. Need onFailure

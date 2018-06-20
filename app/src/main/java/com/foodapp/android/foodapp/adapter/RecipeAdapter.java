@@ -14,23 +14,25 @@ import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.activity.RecipeActivity;
-import com.foodapp.android.foodapp.model.Recipe;
+import com.foodapp.android.foodapp.model.RecipeDetails.Recipe;
+import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-    private ArrayList<Recipe> dataList;
+    private List<Match> dataList;
     private static final String TAG = RecipeAdapter.class.getSimpleName();
 
-    public RecipeAdapter(ArrayList<Recipe> dataList){
+    public RecipeAdapter(List<Match> dataList){
         this.dataList= dataList;
     }
 
     class RecipeViewHolder extends RecyclerView.ViewHolder{
-        TextView txtRecipeLabel, txtRecipeIngredients, txtRecipeRating;
-        ImageView imgFood;
+        private TextView txtRecipeLabel, txtRecipeIngredients, txtRecipeRating;
+        private ImageView imgFood;
         private String mItem;
 
         RecipeViewHolder (final View itemView){
@@ -63,9 +65,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public void onBindViewHolder(RecipeViewHolder holder, int position){
         holder.txtRecipeLabel.setText(dataList.get(position).getRecipeName());
-        holder.txtRecipeIngredients.setText(dataList.get(position).getIngredients());
+        holder.txtRecipeIngredients.setText(dataList.get(position).getIngredients().toString());
         holder.txtRecipeRating.setText("Rating: " + dataList.get(position).getRating());
-        Picasso.get().load(dataList.get(position).getUrl()).into(holder.imgFood);
+        Picasso.get().load(dataList.get(position).getImageUrlsBySize().get90()).into(holder.imgFood);
         Log.d("TAG", "Position: " + position);
     }
 
