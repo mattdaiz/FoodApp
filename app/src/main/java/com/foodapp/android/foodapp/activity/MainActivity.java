@@ -1,12 +1,20 @@
 package com.foodapp.android.foodapp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.model.RecipeSearch.Match;
@@ -26,12 +34,14 @@ import retrofit2.Response;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
 
     private RecipeAdapter adapter;
     private RecyclerView recyclerView;
     private EditText mSearch;
-
+    private RelativeLayout backgroundRelativeLayout;
+    private Button searchButton;
+    private BottomNavigationView navigationBar;
 
     private final String APP_ID = "c64ff1e0";
     private final String APP_KEY = "0e7ff170e9c952c81bf4bf7b2fb0988c";
@@ -43,7 +53,59 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
         mSearch = (EditText) findViewById(R.id.editText_input);
+        searchButton = (Button) findViewById(R.id.button_search);
+        navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
+
+        //Code for when keyboard is up and pressed on background, keyboard goes away
+        backgroundRelativeLayout.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
+        //when enter on keyboard is pressed, auto search and keyboard hide.
+        mSearch.setOnKeyListener(this);
+
+        //set up navigation bar
+        navigationBar.setItemIconTintList(null);
+        navigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //switch case for whichever is pressed
+                switch (item.getItemId()) {
+                    case R.id.search:
+                        return true;
+                    case R.id.favourites:
+                        Intent i = new Intent(MainActivity.this, FavouriteActivity.class);
+                        startActivity(i);
+                        return true;
+                }
+                return true;
+            }
+        });
+    }
+
+    //Hides keyboard onClick of the background or press search button
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.activity_main){
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+        }else if (view.getId() == R.id.button_search){
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+            onClickSearchRecipe(view);
+        }
+    }
+
+    //keyboard gone once click enter and also searches
+    @Override
+    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+        if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN){
+            onClickSearchRecipe(view);
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+        }
+        return false;
     }
 
     /*Method to generate List of recipes using RecyclerView with custom adapter*/
@@ -91,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 
 

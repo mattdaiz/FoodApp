@@ -3,6 +3,9 @@ package com.foodapp.android.foodapp.network;
 import com.foodapp.android.foodapp.model.RecipeDetails.RecipeInfo;
 import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -17,6 +20,7 @@ public interface GetRecipeDataService {
             @Query("_app_id") String id
             ,@Query("_app_key") String key
             ,@Query("q")String search
+            //,@Query("allowedIngredient[]") String search
             //,@Query("maxResult") int integerOne
             //,@Query("start") int integerTwo
     );
