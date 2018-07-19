@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
-import com.foodapp.android.foodapp.adapter.IngredientAdapter;
+import com.foodapp.android.foodapp.adapter.IngredientListAdapter;
 import com.foodapp.android.foodapp.model.RecipeDetails.Image;
 import com.foodapp.android.foodapp.model.RecipeDetails.RecipeInfo;
 import com.foodapp.android.foodapp.network.GetRecipeDataService;
@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class RecipeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private IngredientAdapter adapter;
+    private IngredientListAdapter adapter;
     private RecyclerView recyclerView;
     private String prep_url;
 
@@ -42,7 +42,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
 
     private final String APP_ID = "c64ff1e0";
     private final String APP_KEY = "0e7ff170e9c952c81bf4bf7b2fb0988c";
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = IngredientSearchActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_ingredients);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(RecipeActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new IngredientAdapter(RecipeActivity.this, recipeIngredientList);
+        adapter = new IngredientListAdapter(RecipeActivity.this, recipeIngredientList);
         recyclerView.setAdapter(adapter);
     }
 

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
-import com.foodapp.android.foodapp.adapter.RecipeAdapter;
+import com.foodapp.android.foodapp.adapter.IngredientSearchAdapter;
 import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
 import com.foodapp.android.foodapp.network.GetRecipeDataService;
@@ -33,9 +33,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
+public class IngredientSearchActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
 
-    private RecipeAdapter adapter;
+    private IngredientSearchAdapter adapter;
     private RecyclerView recyclerView;
     private EditText mSearch;
     private RelativeLayout backgroundRelativeLayout;
@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private final String APP_ID = "c64ff1e0";
     private final String APP_KEY = "0e7ff170e9c952c81bf4bf7b2fb0988c";
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = IngredientSearchActivity.class.getSimpleName();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ingredient_search);
         backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
         mSearch = (EditText) findViewById(R.id.editText_input);
         searchButton = (Button) findViewById(R.id.button_search);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.search:
                         return true;
                     case R.id.favourites:
-                        Intent i = new Intent(MainActivity.this, FavouriteActivity.class);
+                        Intent i = new Intent(IngredientSearchActivity.this, FavouriteActivity.class);
                         startActivity(i);
                         return true;
                 }
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onFailure(Call<RecipeList> call, Throwable t) {
                             Log.e("OnFailure", "Fail");
-                            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(IngredientSearchActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClickSearchRecipe(View view) {
         String searchQuery = mSearch.getText().toString();
+        resultPagination = 0;
         //create string for allowedIngredients
         String result[] = searchQuery.trim().split("\\s*,\\s*");
         String urlString = "/v1/api/recipes?_app_id=" + APP_ID + "&_app_key=" + APP_KEY + "&maxResult=10" + "&start=" + resultPagination;
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFailure(Call<RecipeList> call, Throwable t) {
                 Log.e("OnFailure", "Fail");
-                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IngredientSearchActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
         //No results for user
@@ -229,9 +230,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /*Method to generate List of recipes using RecyclerView with custom adapter*/
     private void generateRecipeList(List<Match> recipeDataList) {
         allMatches.clear();
-        resultPagination = 0;
         allMatches.addAll(recipeDataList);
-        adapter = new RecipeAdapter(allMatches);
+        adapter = new IngredientSearchAdapter(allMatches);
         recyclerView.setAdapter(adapter);
     }
 

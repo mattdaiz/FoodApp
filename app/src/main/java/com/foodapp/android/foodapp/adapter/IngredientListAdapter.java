@@ -12,12 +12,12 @@ import com.foodapp.android.foodapp.R;
 
 import java.util.List;
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>  {
+public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.IngredientViewHolder>  {
     private Context context;
     private List<String> ingredientList;
 
 
-    public IngredientAdapter(Context context, List<String> ingredientList){
+    public IngredientListAdapter(Context context, List<String> ingredientList){
         this.context = context;
         this.ingredientList = ingredientList;
     }
@@ -25,7 +25,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @NonNull
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row_recipe_ingredient, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_recipe_ingredient_list, parent, false);
         return new IngredientViewHolder(view);
     }
 

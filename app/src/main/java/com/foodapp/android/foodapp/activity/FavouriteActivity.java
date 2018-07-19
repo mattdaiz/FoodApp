@@ -26,7 +26,7 @@ public class FavouriteActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.search:
-                        Intent i = new Intent(FavouriteActivity.this, MainActivity.class);
+                        Intent i = new Intent(FavouriteActivity.this, IngredientSearchActivity.class);
                         startActivity(i);
                         return true;
                     case R.id.favourites:

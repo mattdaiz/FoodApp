@@ -20,11 +20,11 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+public class IngredientSearchAdapter extends RecyclerView.Adapter<IngredientSearchAdapter.RecipeViewHolder> {
     private List<Match> dataList;
-    private static final String TAG = RecipeAdapter.class.getSimpleName();
+    private static final String TAG = IngredientSearchAdapter.class.getSimpleName();
 
-    public RecipeAdapter(List<Match> dataList) {
+    public IngredientSearchAdapter(List<Match> dataList) {
         this.dataList = dataList;
     }
 
@@ -56,7 +56,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.row_recipe, parent, false);
+        View view = layoutInflater.inflate(R.layout.row_ingredient_search, parent, false);
         return new RecipeViewHolder(view);
     }
 
