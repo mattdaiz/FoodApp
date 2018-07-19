@@ -14,11 +14,9 @@ import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.activity.RecipeActivity;
-import com.foodapp.android.foodapp.model.RecipeDetails.Recipe;
 import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,20 +24,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private List<Match> dataList;
     private static final String TAG = RecipeAdapter.class.getSimpleName();
 
-    public RecipeAdapter(List<Match> dataList){
-        this.dataList= dataList;
+    public RecipeAdapter(List<Match> dataList) {
+        this.dataList = dataList;
     }
 
-    class RecipeViewHolder extends RecyclerView.ViewHolder{
+
+    class RecipeViewHolder extends RecyclerView.ViewHolder {
         private TextView txtRecipeLabel, txtRecipeIngredients, txtRecipeRating;
         private ImageView imgFood;
-        private String mItem;
 
-        RecipeViewHolder (final View itemView){
+        RecipeViewHolder(final View itemView) {
             super(itemView);
             imgFood = (ImageView) itemView.findViewById(R.id.image_food);
             txtRecipeLabel = (TextView) itemView.findViewById(R.id.txt_recipe_label);
-            txtRecipeIngredients = (TextView) itemView.findViewById(R.id.txt_recipe_ingredients);
+            //txtRecipeIngredients = (TextView) itemView.findViewById(R.id.txt_recipe_ingredients);
             txtRecipeRating = (TextView) itemView.findViewById(R.id.txt_recipe_rating);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +45,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 public void onClick(View v) {
                     Toast.makeText(v.getContext(), "Position:" + Integer.toString(getLayoutPosition()), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(v.getContext(), RecipeActivity.class);
-                    intent.putExtra("recipeId",dataList.get(getAdapterPosition()).getId());
+                    intent.putExtra("recipeId", dataList.get(getAdapterPosition()).getId());
                     v.getContext().startActivity(intent);
                 }
             });
@@ -63,11 +61,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     @Override
-    public void onBindViewHolder(RecipeViewHolder holder, int position){
+    public void onBindViewHolder(RecipeViewHolder holder, int position) {
         holder.txtRecipeLabel.setText(dataList.get(position).getRecipeName());
-        holder.txtRecipeIngredients.setText(dataList.get(position).getIngredients().toString());
+        //holder.txtRecipeIngredients.setText(dataList.get(position).getIngredients().toString());
         holder.txtRecipeRating.setText("Rating: " + dataList.get(position).getRating());
-        Picasso.get().load(dataList.get(position).getImageUrlsBySize().get90()).into(holder.imgFood);
+        //String pictureUrl = dataList.get(position).getImageUrlsBySize().get90();
+        Picasso.get().load(dataList.get(position).getImageUrlsBySize().get90().replace("=s90", "=s360")).into(holder.imgFood);
         Log.d("TAG", "Position: " + position);
     }
 

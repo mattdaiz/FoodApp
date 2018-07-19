@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,16 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.foodapp.android.foodapp.model.RecipeSearch.Match;
-import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.R;
-import com.foodapp.android.foodapp.model.RecipeDetails.Recipe;
 import com.foodapp.android.foodapp.adapter.RecipeAdapter;
+import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
+import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.network.RetrofitInstance;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,8 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
 
     private RecipeAdapter adapter;
     private RecyclerView recyclerView;
@@ -46,10 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BottomNavigationView navigationBar;
     private TextView resultsText;
 
+    private List<Match> allMatches = new ArrayList<>();
+    private int resultPagination;
+
     private final String APP_ID = "c64ff1e0";
     private final String APP_KEY = "0e7ff170e9c952c81bf4bf7b2fb0988c";
     private static final String TAG = MainActivity.class.getSimpleName();
-
 
 
     @Override
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSearch = (EditText) findViewById(R.id.editText_input);
         searchButton = (Button) findViewById(R.id.button_search);
         navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
-        resultsText = (TextView) findViewById(R.id.results_text) ;
+        resultsText = (TextView) findViewById(R.id.results_text);
 
         //Code for when keyboard is up and pressed on background, keyboard goes away
         backgroundRelativeLayout.setOnClickListener(this);
@@ -85,17 +84,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         });
+
+
+        // Endless Pagination
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_recipe_list);
+        // Setting the RecyclerView in a Grid layout
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (!recyclerView.canScrollVertically(1) && dy != 0) {
+                    // Load more results here
+                    resultPagination += 10;
+                    String searchQuery = mSearch.getText().toString();
+                    //create string for allowedIngredients
+                    String result[] = searchQuery.trim().split("\\s*,\\s*");
+                    String urlString = "/v1/api/recipes?_app_id=" + APP_ID + "&_app_key=" + APP_KEY + "&maxResult=10" + "&start=" + resultPagination;
+                    //goes through array and append allowedIngredient onto it if matches alphabet
+                    for (String s : result) {
+                        //Log.i("Word",s);
+                        //matches correctly even if user enters garlic, , cognac
+                        if (s.matches("[a-zA-Z]+")) {
+                            //Log.i("DING","DING");
+                            urlString = urlString + "&allowedIngredient[]=" + s;
+                        }
+                    }
+                    //Log.i("STRING", urlString);
+
+                    GetRecipeDataService service = RetrofitInstance.getRetrofitInstance().create(GetRecipeDataService.class);
+
+                    /*Call the method with parameter in the interface to get the recipe data*/
+                    //Call<RecipeList> call = service.searchForRecipe(APP_ID, APP_KEY, "soup", 2, 0);
+                    //Call<RecipeList> call = service.searchForRecipe(APP_ID, APP_KEY, searchQuery);
+                    Call<RecipeList> call = service.allowedIngredients(urlString);
+
+                    /*Log the URL called*/
+                    Log.wtf("URL Called", call.request().url() + "");
+
+                    // Utilize call object via async or sync
+                    // let's use the Call asynchronously
+                    call.enqueue(new Callback<RecipeList>() {
+
+                        // 1. Need onResponse
+                        @Override
+                        public void onResponse(Call<RecipeList> call, Response<RecipeList> response) {
+                            UpdateRecipeList(response.body().getMatches());
+                        }
+
+                        // 2. Need onFailure
+                        @Override
+                        public void onFailure(Call<RecipeList> call, Throwable t) {
+                            Log.e("OnFailure", "Fail");
+                            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     //Hides keyboard onClick of the background or press search button
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.activity_main){
+        if (view.getId() == R.id.activity_main) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
-        }else if (view.getId() == R.id.button_search){
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } else if (view.getId() == R.id.button_search) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             onClickSearchRecipe(view);
         }
     }
@@ -104,30 +161,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
 
-        if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN){
+        if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
             onClickSearchRecipe(view);
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
         return false;
-    }
-
-    /*Method to generate List of recipes using RecyclerView with custom adapter*/
-    private void generateRecipeList(List<Match> recipeDataList){
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_recipe_list);
-        adapter = new RecipeAdapter(recipeDataList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
     }
 
     public void onClickSearchRecipe(View view) {
         String searchQuery = mSearch.getText().toString();
         //create string for allowedIngredients
         String result[] = searchQuery.trim().split("\\s*,\\s*");
-        String urlString = "/v1/api/recipes?_app_id="+APP_ID+"&_app_key="+APP_KEY;
+        String urlString = "/v1/api/recipes?_app_id=" + APP_ID + "&_app_key=" + APP_KEY + "&maxResult=10" + "&start=" + resultPagination;
         //goes through array and append allowedIngredient onto it if matches alphabet
-        for (String s: result){
+        for (String s : result) {
             //Log.i("Word",s);
             //matches correctly even if user enters garlic, , cognac
             if (s.matches("[a-zA-Z]+")) {
@@ -176,6 +224,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         resultsText.setText("No Results");
+    }
+
+    /*Method to generate List of recipes using RecyclerView with custom adapter*/
+    private void generateRecipeList(List<Match> recipeDataList) {
+        allMatches.clear();
+        resultPagination = 0;
+        allMatches.addAll(recipeDataList);
+        adapter = new RecipeAdapter(allMatches);
+        recyclerView.setAdapter(adapter);
+    }
+
+    /*Method to generate List of recipes using RecyclerView with custom adapter*/
+    private void UpdateRecipeList(List<Match> recipeDataList) {
+        List<Match> moreMatches = recipeDataList;
+        int curSize = adapter.getItemCount();
+        allMatches.addAll(moreMatches);
+        adapter.notifyItemRangeInserted(curSize, allMatches.size() - 1);
     }
 
 

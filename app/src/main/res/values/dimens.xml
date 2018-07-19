@@ -5,4 +5,11 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_recipe_radius">0dp</dimen>
+    <dimen name="recipe_cover_height">160dp</dimen>
+    <dimen name="recipe_title_padding">10dp</dimen>
+    <dimen name="recipe_title">15sp</dimen>
+    <dimen name="recipe_count_padding_bottom">5dp</dimen>
+    <dimen name="recipe_count">12sp</dimen>
 </resources>
