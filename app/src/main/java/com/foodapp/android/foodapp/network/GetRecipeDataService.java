@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 
 // Retrofit turns your HTTP API into a Java interface
@@ -23,6 +24,11 @@ public interface GetRecipeDataService {
             //,@Query("allowedIngredient[]") String search
             //,@Query("maxResult") int integerOne
             //,@Query("start") int integerTwo
+    );
+
+    @GET
+    Call<RecipeList> allowedIngredients(
+            @Url String url
     );
 
     /* Implement for RecipeActivity - the recipe details */

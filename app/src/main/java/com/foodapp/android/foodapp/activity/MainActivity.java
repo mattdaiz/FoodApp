@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.model.RecipeSearch.Match;
@@ -26,6 +27,7 @@ import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
 import com.foodapp.android.foodapp.network.RetrofitInstance;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout backgroundRelativeLayout;
     private Button searchButton;
     private BottomNavigationView navigationBar;
+    private TextView resultsText;
 
     private final String APP_ID = "c64ff1e0";
     private final String APP_KEY = "0e7ff170e9c952c81bf4bf7b2fb0988c";
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSearch = (EditText) findViewById(R.id.editText_input);
         searchButton = (Button) findViewById(R.id.button_search);
         navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
+        resultsText = (TextView) findViewById(R.id.results_text) ;
 
         //Code for when keyboard is up and pressed on background, keyboard goes away
         backgroundRelativeLayout.setOnClickListener(this);
@@ -119,13 +123,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClickSearchRecipe(View view) {
         String searchQuery = mSearch.getText().toString();
-
+        //create string for allowedIngredients
+        String result[] = searchQuery.trim().split("\\s*,\\s*");
+        String urlString = "/v1/api/recipes?_app_id="+APP_ID+"&_app_key="+APP_KEY;
+        //goes through array and append allowedIngredient onto it if matches alphabet
+        for (String s: result){
+            Log.i("Word",s);
+            //matches correctly even if user enters garlic, , cognac
+            if (s.matches("[a-zA-Z]+")) {
+                Log.i("DING","DING");
+                urlString = urlString + "&allowedIngredient[]=" + s;
+            }
+        }
+        //Log.i("STRING", urlString);
 
         GetRecipeDataService service = RetrofitInstance.getRetrofitInstance().create(GetRecipeDataService.class);
 
         /*Call the method with parameter in the interface to get the recipe data*/
         //Call<RecipeList> call = service.searchForRecipe(APP_ID, APP_KEY, "soup", 2, 0);
-        Call<RecipeList> call = service.searchForRecipe(APP_ID, APP_KEY, searchQuery);
+        //Call<RecipeList> call = service.searchForRecipe(APP_ID, APP_KEY, searchQuery);
+        Call<RecipeList> call = service.allowedIngredients(urlString);
 
         /*Log the URL called*/
         Log.wtf("URL Called", call.request().url() + "");
@@ -152,6 +169,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
+        //No results for user
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resultsText.setText("No Results");
     }
 
 
