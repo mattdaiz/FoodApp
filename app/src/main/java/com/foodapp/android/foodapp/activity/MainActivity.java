@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String urlString = "/v1/api/recipes?_app_id="+APP_ID+"&_app_key="+APP_KEY;
         //goes through array and append allowedIngredient onto it if matches alphabet
         for (String s: result){
-            Log.i("Word",s);
+            //Log.i("Word",s);
             //matches correctly even if user enters garlic, , cognac
             if (s.matches("[a-zA-Z]+")) {
-                Log.i("DING","DING");
+                //Log.i("DING","DING");
                 urlString = urlString + "&allowedIngredient[]=" + s;
             }
         }
