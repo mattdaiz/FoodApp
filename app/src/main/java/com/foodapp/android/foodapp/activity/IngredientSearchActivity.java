@@ -147,10 +147,12 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
     //Hides keyboard onClick of the background or press search button
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.activity_main) {
+        if (view.getId() == R.id.activity_main || view.getId() == R.id.recycler_view_recipe_list) {
+            Log.i("CLICKED","CKLIED");
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         } else if (view.getId() == R.id.button_search) {
+            Log.i("CLICKED","search");
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             onClickSearchRecipe(view);

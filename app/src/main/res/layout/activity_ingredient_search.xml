@@ -5,7 +5,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.IngredientSearchActivity">
+    tools:context=".activity.IngredientSearchActivity"
+    android:clickable="true">
 
     <TextView
         android:id="@+id/results_text"
