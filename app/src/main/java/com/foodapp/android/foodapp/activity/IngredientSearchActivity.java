@@ -80,6 +80,14 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                         Intent i = new Intent(IngredientSearchActivity.this, FavouriteActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
+                        finish();
+                        return true;
+                    case R.id.logout:
+                        Intent j = new Intent(IngredientSearchActivity.this, LoginActivity.class);
+                        j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        SharedPreference.clearUserName(getApplicationContext());
+                        startActivity(j);
+                        finish();
                         return true;
                 }
                 return true;

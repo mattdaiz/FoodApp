@@ -29,9 +29,15 @@ public class FavouriteActivity extends AppCompatActivity {
                         Intent i = new Intent(FavouriteActivity.this, IngredientSearchActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
-                        //finish();
+                        finish();
                         return true;
                     case R.id.favourites:
+                        return true;
+                    case R.id.logout:
+                        Intent j = new Intent(FavouriteActivity.this, LoginActivity.class);
+                        SharedPreference.clearUserName(getApplicationContext());
+                        startActivity(j);
+                        finish();
                         return true;
                 }
                 return true;

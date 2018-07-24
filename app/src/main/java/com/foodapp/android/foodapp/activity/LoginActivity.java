@@ -7,7 +7,9 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 package com.foodapp.android.foodapp.activity;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -116,9 +118,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void done(ParseUser user, ParseException e) {
                         if(user!=null){
                             Log.i("Signup", "Login successful");
+
+                            // Stores information that user already logged in
+                            SharedPreference.setUserName(getApplicationContext(),user.getObjectId());
+
                             Intent i = new Intent(LoginActivity.this, IngredientSearchActivity.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
+                            finish();
                         }else{
                             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -127,7 +134,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         }
-
     }
 
     @Override
