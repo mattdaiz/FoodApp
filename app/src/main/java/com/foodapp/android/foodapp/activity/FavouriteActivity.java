@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.foodapp.android.foodapp.R;
+import com.parse.ParseUser;
 
 public class FavouriteActivity extends AppCompatActivity {
 
@@ -29,12 +30,13 @@ public class FavouriteActivity extends AppCompatActivity {
                         Intent i = new Intent(FavouriteActivity.this, IngredientSearchActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
-                        finish();
+                        //finish();
                         return true;
                     case R.id.favourites:
                         return true;
                     case R.id.logout:
                         Intent j = new Intent(FavouriteActivity.this, LoginActivity.class);
+                        ParseUser.logOut();
                         SharedPreference.clearUserName(getApplicationContext());
                         startActivity(j);
                         finish();

@@ -24,6 +24,7 @@ import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
 import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.network.RetrofitInstance;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,8 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //print username of user
+        //Log.i("USER", ParseUser.getCurrentUser().getUsername().toString());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient_search);
         backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
@@ -80,9 +83,10 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                         Intent i = new Intent(IngredientSearchActivity.this, FavouriteActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
-                        finish();
+                        //finish();
                         return true;
                     case R.id.logout:
+                        ParseUser.logOut();
                         Intent j = new Intent(IngredientSearchActivity.this, LoginActivity.class);
                         j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         SharedPreference.clearUserName(getApplicationContext());

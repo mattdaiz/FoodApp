@@ -9,6 +9,7 @@
 package com.foodapp.android.foodapp.activity;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
@@ -20,7 +21,7 @@ public class StarterApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-
+    Log.i("STARTER","SFDSFDF");
     // Enable Local Datastore.
     Parse.enableLocalDatastore(this);
 

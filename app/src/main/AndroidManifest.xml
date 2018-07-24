@@ -40,8 +40,7 @@
             android:name=".activity.IngredientSearchActivity"
             android:label="IngredientSearch"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
     </application>
 
 </manifest>
