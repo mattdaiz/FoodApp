@@ -25,13 +25,19 @@
         </activity>
         <activity
             android:name=".activity.RecipeActivity"
-            android:label="Recipe_Identity">
+            android:label="Recipe_Identity"
+            android:launchMode="singleTop">
         </activity>
-        <activity android:name=".activity.FavouriteActivity"/>
+        <activity
+            android:name=".activity.FavouriteActivity"
+            android:launchMode="singleTop">
+        </activity>
         <activity
             android:name=".activity.IngredientSearchActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
-            android:label="IngredientSearch" />
+            android:label="IngredientSearch"
+            android:launchMode="singleTop"> >
+        </activity>
 
     </application>
 

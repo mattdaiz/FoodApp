@@ -78,6 +78,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                         return true;
                     case R.id.favourites:
                         Intent i = new Intent(IngredientSearchActivity.this, FavouriteActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                         return true;
                 }
@@ -148,11 +149,11 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.activity_main || view.getId() == R.id.recycler_view_recipe_list) {
-            Log.i("CLICKED","CKLIED");
+            //Log.i("CLICKED","CKLIED");
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         } else if (view.getId() == R.id.button_search) {
-            Log.i("CLICKED","search");
+            //Log.i("CLICKED","search");
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             onClickSearchRecipe(view);
@@ -172,6 +173,8 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
     }
 
     public void onClickSearchRecipe(View view) {
+        //make sure text is blank at beginning
+        resultsText.setText("");
         String searchQuery = mSearch.getText().toString();
         resultPagination = 0;
         //create string for allowedIngredients
@@ -209,7 +212,10 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
 //                Log.d(TAG, "Total number of questions fetched : " + response.body());
 //                Log.e("OnResponse", "OK");
 //                Log.d("TEST", response.message());
-//                Log.d("TEST2", "TESTTEST" + response.body());
+                //check if results are empty.
+                if (response.body().getMatches().isEmpty()){
+                    resultsText.setText("No Results");
+                }
                 generateRecipeList(response.body().getMatches());
             }
 
@@ -220,13 +226,6 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                 Toast.makeText(IngredientSearchActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-        //No results for user
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        resultsText.setText("No Results");
     }
 
     /*Method to generate List of recipes using RecyclerView with custom adapter*/

@@ -27,7 +27,9 @@ public class FavouriteActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.search:
                         Intent i = new Intent(FavouriteActivity.this, IngredientSearchActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
+                        //finish();
                         return true;
                     case R.id.favourites:
                         return true;
