@@ -20,27 +20,27 @@
     tools:context=".activity.LoginActivity">
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/signupButton"
         android:layout_width="349dp"
         android:layout_height="34dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="238dp"
         android:background="@color/colorPrimaryDark"
-        android:onClick="loginClick"
-        android:text="Login"
+        android:onClick="signupClick"
+        android:text="Create Account"
         android:textColor="@color/colorAccent" />
 
     <TextView
-        android:id="@+id/link_signup"
+        android:id="@+id/link_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="206dp"
         android:gravity="center"
-        android:onClick="signupClick"
-        android:text="No account yet? Create one"
+        android:onClick="loginClick"
+        android:text="Already a member? Login"
         android:textColor="@color/colorAccent"
         android:textSize="16dip" />
 

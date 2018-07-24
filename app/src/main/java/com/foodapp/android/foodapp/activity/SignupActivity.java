@@ -1,17 +1,8 @@
-/*
- * Copyright (c) 2015-present, Parse, LLC.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
 package com.foodapp.android.foodapp.activity;
-import android.app.Activity;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -27,12 +18,8 @@ import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-import com.parse.Parse;
-import com.parse.SaveCallback;
 
-
-
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
 
     TextView changeSignupModeTextView;
     EditText usernameEditText;
@@ -52,12 +39,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void signupClick(View view){
-        Intent i = new Intent(LoginActivity.this, SignupActivity.class);
-        startActivity(i);
+        signUp(view);
     }
 
     public void loginClick(View view){
-        login(view);
+        Intent i = new Intent(SignupActivity.this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
     }
 
 
@@ -85,38 +74,54 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void login(View view){
+    public void signUp(View view){
 
 
         if (usernameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")){
             Toast.makeText(this,"A username and password are required", Toast.LENGTH_SHORT).show();
-        }else{
-                ParseUser.logInInBackground(usernameEditText.getText().toString(), passwordEditText.getText().toString(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
-                        if(user!=null){
-                            Log.i("Signup", "Login successful");
+        }else {
 
-                            // Stores information that user already logged in
-                            SharedPreference.setUserName(getApplicationContext(),user.getObjectId());
+            ParseUser user = new ParseUser();
+            user.setUsername(usernameEditText.getText().toString());
+            user.setPassword(passwordEditText.getText().toString());
+            user.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Log.i("Signup", "Signup successful");
+                        Toast.makeText(SignupActivity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                        ParseUser.logInInBackground(usernameEditText.getText().toString(), passwordEditText.getText().toString(), new LogInCallback() {
+                            @Override
+                            public void done(ParseUser user, ParseException e) {
+                                if (user != null) {
+                                    Log.i("Signup", "Login successful");
 
-                            Intent i = new Intent(LoginActivity.this, IngredientSearchActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(i);
-                        }else{
-                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                                    // Stores information that user already logged in
+                                    SharedPreference.setUserName(getApplicationContext(), user.getObjectId());
+
+                                    Intent i = new Intent(SignupActivity.this, IngredientSearchActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(i);
+                                } else {
+                                    Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
+                }
+            });
 
-
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
         backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.backgroundRelativeLayout);
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -130,6 +135,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
-
-
 }

@@ -15,32 +15,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.LoginActivity"/>
-
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".activity.RecipeActivity"
             android:label="Recipe_Identity"
-            android:launchMode="singleTop"/>
-
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.FavouriteActivity"
-            android:launchMode="singleTop"/>
-
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.IngredientSearchActivity"
             android:label="IngredientSearch"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".activity.SignupActivity"></activity>
     </application>
 
 </manifest>
