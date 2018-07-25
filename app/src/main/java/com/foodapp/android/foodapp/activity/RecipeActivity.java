@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.adapter.IngredientListAdapter;
@@ -20,6 +22,16 @@ import com.foodapp.android.foodapp.model.RecipeDetails.RecipeInfo;
 import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.network.RetrofitInstance;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -38,6 +50,8 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
     ImageView imgFood;
     Button btnPreparation;
     SimpleRatingBar ratingBar;
+    ToggleButton favouriteRecipe;
+    LikeButton likeButton;
 
 
     private final String APP_ID = "c64ff1e0";
@@ -60,6 +74,77 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         btnPreparation.setOnClickListener(this);
 
 
+        //******************************************************************************************
+        likeButton = findViewById(R.id.star_button);
+
+        Log.i("User logged in", ParseUser.getCurrentUser().getUsername());
+        // Checks if user has previously favourite a recipe
+
+        // Query to search in the database
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                Intent intent = getIntent();
+                if (e == null){
+                    if (objects.size() > 0){
+                        // Iterate through all the user's favourite recipe's
+                        for (ParseObject object : objects){
+                            if (object.getString("recipeId").equals(intent.getStringExtra("recipeId"))){
+                                Log.i("Recipe in Database", "YES");
+                                likeButton.setLiked(true);
+                                break;
+                            } else{
+                                Log.i("Recipe in Database", "NO");
+                                likeButton.setLiked(false);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                ParseObject favourite = new ParseObject("Favourite");
+                favourite.put("username", ParseUser.getCurrentUser().getUsername());
+                Intent intent = getIntent();
+                favourite.put("recipeId", intent.getStringExtra("recipeId"));
+                favourite.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null){
+                            Log.i("Recipe Result", "SAVED");
+                        }else{
+                            Log.i("Recipe Result", "ERROR");
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                // Query to search in the database
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
+                query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+                Intent intent = getIntent();
+                query.whereEqualTo("recipeId", intent.getStringExtra("recipeId"));
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null){
+                            object.deleteInBackground();
+                            Log.i("Recipe Result", "DELETED");
+                        }
+                    }
+                });
+            }
+        });
+
+        //******************************************************************************************
 
         /*Call the method with parameter in the interface to get the recipe data*/
         //Creating a retrofit object
