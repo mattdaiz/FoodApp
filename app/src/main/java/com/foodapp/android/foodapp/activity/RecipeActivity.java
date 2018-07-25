@@ -90,7 +90,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                     if (objects.size() > 0){
                         // Iterate through all the user's favourite recipe's
                         for (ParseObject object : objects){
-                            if (object.getString("recipeId").equals(intent.getStringExtra("recipeId"))){
+                            if (object.getString("recipeId").equals(intent.getStringExtra("recipeId")) && object.getString("username").equals(ParseUser.getCurrentUser().getUsername().toString())) {
                                 Log.i("Recipe in Database", "YES");
                                 likeButton.setLiked(true);
                                 break;
