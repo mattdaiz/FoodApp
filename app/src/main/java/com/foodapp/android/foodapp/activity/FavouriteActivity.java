@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.foodapp.android.foodapp.R;
 import com.parse.FindCallback;
@@ -23,24 +24,44 @@ public class FavouriteActivity extends AppCompatActivity {
 
     private BottomNavigationView navigationBar;
     private ArrayList<String> recipeList;
+    private TextView resultsTextView;
 
-
+    //populates an arraylist with favourited recipeId on the current user
     public static void getFavouriteRecipeID(final ArrayList<String> list){
-        //get favourite recipeIDs into list
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
         query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    for (ParseObject object : objects) {
-                        //Log.i("RECIPE",object.getString("recipeId"));
-                        list.add(object.getString("recipeId"));
-                    }
-                    Log.i("Recipe", Arrays.toString(list.toArray()));
-                }
-            }
-        });
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> objects, ParseException e) {
+//                if (e == null) {
+//                    for (ParseObject object : objects) {
+//                        //Log.i("RECIPE",object.getString("recipeId"));
+//                        list.add(object.getString("recipeId"));
+//                    }
+//                    Log.i("Recipe", Arrays.toString(list.toArray()));
+//                }
+//            }
+//        });
+        List<ParseObject> ob = null;
+        try {
+            ob = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //add to arraylist
+        for (ParseObject object : ob) {
+            list.add(object.getString("recipeId"));
+        }
+        //print list during method to test
+        Log.i("BeforeRecipe", Arrays.toString(list.toArray()));
+
+    }
+
+    //displays noResults if no favourites
+    public static void noResults(TextView resultsText, ArrayList<String> list){
+        if (list.isEmpty()){
+            resultsText.setText("No Results");
+        }
     }
 
     @Override
@@ -48,10 +69,16 @@ public class FavouriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
         navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
-
+        resultsTextView = (TextView) findViewById(R.id.results_text);
         //populate recipeList with the favourited recipeIDs
         recipeList = new ArrayList<String>();
         getFavouriteRecipeID(recipeList);
+
+        //print list after method to test
+        Log.i("AfterRecipe", Arrays.toString(recipeList.toArray()));
+
+        //displays noResults in textview if no favourites
+        noResults(resultsTextView,recipeList);
 
 
 
@@ -69,6 +96,7 @@ public class FavouriteActivity extends AppCompatActivity {
                         Intent i = new Intent(FavouriteActivity.this, IngredientSearchActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
+                        //we dont want finish() incase they want to come back to it
                         //finish();
                         return true;
                     case R.id.favourites:
