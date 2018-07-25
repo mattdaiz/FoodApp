@@ -88,6 +88,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = getIntent();
                 if (e == null){
                     if (objects.size() > 0){
+                        Log.i("size",String.valueOf(objects.size()));
                         // Iterate through all the user's favourite recipe's
                         for (ParseObject object : objects){
                             if (object.getString("recipeId").equals(intent.getStringExtra("recipeId")) && object.getString("username").equals(ParseUser.getCurrentUser().getUsername().toString())) {
