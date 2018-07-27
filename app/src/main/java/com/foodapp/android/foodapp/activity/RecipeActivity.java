@@ -45,6 +45,8 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
     private IngredientListAdapter adapter;
     private RecyclerView recyclerView;
     private String prep_url;
+    private String photo_url;
+    private String recipeName;
 
     TextView txtRecipeName, txtPrepTime, txtRecipeYield;
     ImageView imgFood;
@@ -96,7 +98,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                                 likeButton.setLiked(true);
                                 break;
                             } else{
-                                Log.i("Recipe in Database", "NO");
+                                //Log.i("Recipe in Database", "NO");
                                 likeButton.setLiked(false);
                             }
                         }
@@ -112,7 +114,10 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                 ParseObject favourite = new ParseObject("Favourite");
                 favourite.put("username", ParseUser.getCurrentUser().getUsername());
                 Intent intent = getIntent();
+                favourite.put("recipeName", recipeName);
                 favourite.put("recipeId", intent.getStringExtra("recipeId"));
+                favourite.put("recipePhoto", photo_url);
+                Log.i("photoURL", photo_url);
                 favourite.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -165,9 +170,11 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
             public void onResponse(Call<RecipeInfo> call, Response<RecipeInfo> response) {
                 List<Image> Images = (response.body()).getImages();
                 String url = Images.get(0).getImageUrlsBySize().get360();
+                photo_url = url;
                 Picasso.get().load(url).into(imgFood);
                 ratingBar.setRating(response.body().getRating());
                 txtRecipeName.setText(response.body().getName());
+                recipeName = response.body().getName();
                 txtPrepTime.setText(getString(R.string.prepTime, response.body().getTotalTime()));
                 txtRecipeYield.setText(getString(R.string.yield, response.body().getNumberOfServings()));
                 generateRecipeInfo(response.body().getIngredientLines());
