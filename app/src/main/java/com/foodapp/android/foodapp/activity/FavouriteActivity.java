@@ -72,7 +72,7 @@ public class FavouriteActivity extends AppCompatActivity {
                     }
                     Log.i("Count", Integer.toString(count));
                 }
-                //loadBar.setVisibility(View.INVISIBLE);
+                loadBar.setVisibility(View.INVISIBLE);
                 adapter = new FavouriteAdapter(getApplicationContext(), resultList);
                 favouriteRecyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
