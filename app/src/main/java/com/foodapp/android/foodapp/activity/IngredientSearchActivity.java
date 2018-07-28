@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
     private Button searchButton;
     private BottomNavigationView navigationBar;
     private TextView resultsText;
+    ProgressBar loadBar;
 
     private List<Match> allMatches = new ArrayList<>();
     private int resultPagination;
@@ -63,6 +65,8 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
         searchButton = (Button) findViewById(R.id.button_search);
         navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
         resultsText = (TextView) findViewById(R.id.results_text);
+        loadBar = (ProgressBar) findViewById(R.id.progressBar_load);
+        loadBar.setVisibility(View.INVISIBLE);
 
         //Code for when keyboard is up and pressed on background, keyboard goes away
         backgroundRelativeLayout.setOnClickListener(this);
@@ -109,6 +113,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (!recyclerView.canScrollVertically(1) && dy != 0) {
                     // Load more results here
+                    loadBar.setVisibility(View.VISIBLE);
                     resultPagination += 10;
                     String searchQuery = mSearch.getText().toString();
                     //create string for allowedIngredients
@@ -143,6 +148,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                         @Override
                         public void onResponse(Call<RecipeList> call, Response<RecipeList> response) {
                             UpdateRecipeList(response.body().getMatches());
+                            loadBar.setVisibility(View.INVISIBLE);
                         }
 
                         // 2. Need onFailure
@@ -150,6 +156,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                         public void onFailure(Call<RecipeList> call, Throwable t) {
                             Log.e("OnFailure", "Fail");
                             Toast.makeText(IngredientSearchActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            loadBar.setVisibility(View.INVISIBLE);
                         }
                     });
                 }
@@ -169,6 +176,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             onClickSearchRecipe(view);
+            loadBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -229,6 +237,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                     resultsText.setText("No Results");
                 }
                 generateRecipeList(response.body().getMatches());
+                loadBar.setVisibility(View.INVISIBLE);
             }
 
             // 2. Need onFailure
@@ -236,6 +245,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
             public void onFailure(Call<RecipeList> call, Throwable t) {
                 Log.e("OnFailure", "Fail");
                 Toast.makeText(IngredientSearchActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                loadBar.setVisibility(View.INVISIBLE);
             }
         });
     }

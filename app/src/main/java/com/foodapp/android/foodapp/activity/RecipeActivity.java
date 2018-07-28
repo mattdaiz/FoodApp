@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -54,6 +56,8 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
     SimpleRatingBar ratingBar;
     ToggleButton favouriteRecipe;
     LikeButton likeButton;
+    ProgressBar progressBar;
+    RelativeLayout recipeLayout;
 
 
     private final String APP_ID = "c64ff1e0";
@@ -66,7 +70,8 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_recipe);
         String value = getIntent().getStringExtra("recipeId");
 
-
+        recipeLayout = (RelativeLayout) findViewById(R.id.relativeLayout_recipe);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_load);
         imgFood = (ImageView) findViewById(R.id.imageView_Recipe_image);
         txtRecipeName = (TextView) findViewById(R.id.textView_name);
         txtPrepTime = (TextView) findViewById(R.id.textView_prepTime);
@@ -75,8 +80,9 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         btnPreparation = (Button) findViewById(R.id.button_prep_url);
         btnPreparation.setOnClickListener(this);
 
+        recipeLayout.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
-        //******************************************************************************************
         likeButton = findViewById(R.id.star_button);
 
         Log.i("User logged in", ParseUser.getCurrentUser().getUsername());
@@ -150,8 +156,6 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        //******************************************************************************************
-
         /*Call the method with parameter in the interface to get the recipe data*/
         //Creating a retrofit object
         //creating the api interface
@@ -179,6 +183,9 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                 txtRecipeYield.setText(getString(R.string.yield, response.body().getNumberOfServings()));
                 generateRecipeInfo(response.body().getIngredientLines());
                 prep_url = (response.body().getSource().getSourceRecipeUrl());
+
+                recipeLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             // 2. Need onFailure

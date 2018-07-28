@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.foodapp.android.foodapp.R;
@@ -31,6 +33,7 @@ public class FavouriteActivity extends AppCompatActivity {
     private TextView resultsTextView;
     RecyclerView favouriteRecyclerView;
     FavouriteAdapter adapter;
+    ProgressBar loadBar;
 
     //displays noResults if no favourites
     public static void noResults(TextView resultsText, List<Results> list) {
@@ -45,12 +48,14 @@ public class FavouriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favourite);
         navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
         resultsTextView = (TextView) findViewById(R.id.results_text);
-        final List<Results> resultList = new ArrayList<>();
+        loadBar = (ProgressBar) findViewById(R.id.progressBar_load);
 
+        final List<Results> resultList = new ArrayList<>();
         favouriteRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_favourite);
         LinearLayoutManager linearlayout = new LinearLayoutManager(getApplicationContext());
         favouriteRecyclerView.setLayoutManager(linearlayout);
 
+        loadBar.setVisibility(View.VISIBLE);
         // Parse through database and pass data to adapter
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
         query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
@@ -67,9 +72,12 @@ public class FavouriteActivity extends AppCompatActivity {
                     }
                     Log.i("Count", Integer.toString(count));
                 }
+                //loadBar.setVisibility(View.INVISIBLE);
                 adapter = new FavouriteAdapter(getApplicationContext(), resultList);
                 favouriteRecyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 noResults(resultsTextView,resultList);
+
             }
         });
 
