@@ -125,6 +125,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
                         //matches correctly even if user enters garlic, , cognac
                         if (s.matches("[a-zA-Z]+")) {
                             //Log.i("DING","DING");
+                            s = s.toLowerCase();
                             urlString = urlString + "&allowedIngredient[]=" + s;
                         }
                     }
@@ -206,6 +207,7 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
             //matches correctly even if user enters garlic, , cognac
             if (s.matches("[a-zA-Z]+")) {
                 //Log.i("DING","DING");
+                s = s.toLowerCase();
                 urlString = urlString + "&allowedIngredient[]=" + s;
             }
         }
