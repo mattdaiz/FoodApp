@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -32,7 +34,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class IngredientSearchFragment extends Fragment {
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
+public class IngredientSearchFragment extends Fragment implements View.OnClickListener, View.OnKeyListener{
     private IngredientSearchAdapter adapter;
     private RecyclerView recyclerView;
     private EditText mSearch;
@@ -66,21 +70,19 @@ public class IngredientSearchFragment extends Fragment {
         //loadBar.setVisibility(View.INVISIBLE);
 
         searchButton = (Button) rootView.findViewById(R.id.button_search);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickSearchRecipe(v);
-            }
-        });
+        //searchButton.setOnClickListener(new View.OnClickListener());
 
-//        //Code for when keyboard is up and pressed on background, keyboard goes away
-//        backgroundRelativeLayout.setOnClickListener(this);
-//        searchButton.setOnClickListener(this);
+
 //        //when enter on keyboard is pressed, auto search and keyboard hide.
-//        mSearch.setOnKeyListener(this);
+        mSearch.setOnKeyListener(this);
 
         // Endless Pagination
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_recipe_list);
+
+//        //Code for when keyboard is up and pressed on background, keyboard goes away
+        backgroundRelativeLayout.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
+        recyclerView.setOnClickListener(this);
         // Setting the RecyclerView in a Grid layout
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
@@ -101,6 +103,7 @@ public class IngredientSearchFragment extends Fragment {
                         //matches correctly even if user enters garlic, , cognac
                         if (s.matches("[a-zA-Z]+")) {
                             //Log.i("DING","DING");
+                            s = s.toLowerCase();
                             urlString = urlString + "&allowedIngredient[]=" + s;
                         }
                     }
@@ -142,33 +145,23 @@ public class IngredientSearchFragment extends Fragment {
     }
 
 
-//    //Hides keyboard onClick of the background or press search button
-//    @Override
-//    public void onClick(View view) {
-//        if (view.getId() == R.id.activity_main || view.getId() == R.id.recycler_view_recipe_list) {
-//            //Log.i("CLICKED","CKLIED");
-//            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-//            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-//        } else if (view.getId() == R.id.button_search) {
-//            //Log.i("CLICKED","search");
-//            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-//            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-//            onClickSearchRecipe(view);
-//            //loadBar.setVisibility(View.VISIBLE);
-//        }
-//    }
-//
-//    //keyboard gone once click enter and also searches
-//    @Override
-//    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-//
-//        if (i == KeyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-//            onClickSearchRecipe(view);
-//            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-//            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-//        }
-//        return false;
-//    }
+    //Hides keyboard onClick of the background or press search button
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.activity_main || view.getId() == R.id.recycler_view_recipe_list) {
+            Log.i("CLICKED","CKLIED");
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        } else if (view.getId() == R.id.button_search) {
+            Log.i("CLICKED","search");
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            onClickSearchRecipe(view);
+            //loadBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+
 
     public void onClickSearchRecipe(View view) {
         //make sure text is blank at beginning
@@ -184,6 +177,7 @@ public class IngredientSearchFragment extends Fragment {
             //matches correctly even if user enters garlic, , cognac
             if (s.matches("[a-zA-Z]+")) {
                 //Log.i("DING","DING");
+                s = s.toLowerCase();
                 urlString = urlString + "&allowedIngredient[]=" + s;
             }
         }
@@ -242,5 +236,16 @@ public class IngredientSearchFragment extends Fragment {
         int curSize = adapter.getItemCount();
         allMatches.addAll(moreMatches);
         adapter.notifyItemRangeInserted(curSize, allMatches.size() - 1);
+    }
+
+    //keyboard gone once click enter and also searches
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+            onClickSearchRecipe(v);
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
+        return false;
     }
 }
