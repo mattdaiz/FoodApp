@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
+import com.foodapp.android.foodapp.activity.MainActivity;
 import com.foodapp.android.foodapp.adapter.IngredientSearchAdapter;
 import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
@@ -36,7 +38,7 @@ import retrofit2.Response;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-public class IngredientSearchFragment extends Fragment implements View.OnClickListener, View.OnKeyListener{
+public class IngredientSearchFragment extends Fragment implements View.OnClickListener, View.OnKeyListener, View.OnTouchListener {
     private IngredientSearchAdapter adapter;
     private RecyclerView recyclerView;
     private EditText mSearch;
@@ -80,7 +82,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_recipe_list);
 
 //        //Code for when keyboard is up and pressed on background, keyboard goes away
-        backgroundRelativeLayout.setOnClickListener(this);
+        recyclerView.setOnTouchListener(this);
         searchButton.setOnClickListener(this);
         recyclerView.setOnClickListener(this);
         // Setting the RecyclerView in a Grid layout
@@ -145,14 +147,10 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
     }
 
 
-    //Hides keyboard onClick of the background or press search button
+    //Hides keyboard onClick  press search button
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.activity_main || view.getId() == R.id.recycler_view_recipe_list) {
-            Log.i("CLICKED","CKLIED");
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        } else if (view.getId() == R.id.button_search) {
+        if (view.getId() == R.id.button_search) {
             Log.i("CLICKED","search");
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
@@ -246,6 +244,14 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
+        return false;
+    }
+
+    //when recycleview is touched, make sure keyboard is gone.
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         return false;
     }
 }

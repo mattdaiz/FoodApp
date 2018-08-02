@@ -11,10 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.foodapp.android.foodapp.R;
+import com.foodapp.android.foodapp.activity.MainActivity;
 import com.foodapp.android.foodapp.adapter.FavouriteAdapter;
 import com.foodapp.android.foodapp.model.FavouriteUser.Results;
 import com.parse.FindCallback;
@@ -25,6 +28,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class FavouriteFragment extends Fragment {
     private BottomNavigationView navigationBar;
@@ -40,6 +45,7 @@ public class FavouriteFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new FavouriteAdapter(resultList);
+
     }
 
     @Nullable
@@ -54,6 +60,10 @@ public class FavouriteFragment extends Fragment {
         favouriteRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_favourite);
         LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
         favouriteRecyclerView.setLayoutManager(linearlayout);
+
+        //update bool to show in frag1
+        MainActivity.isFragment1Shown=false;
+        MainActivity.isFragment2Shown=true;
 
         loadBar.setVisibility(View.VISIBLE);
         // Parse through database and pass data to adapter
@@ -111,4 +121,5 @@ public class FavouriteFragment extends Fragment {
             }
         });
     }
+
 }
