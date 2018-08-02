@@ -25,6 +25,7 @@ import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
 import com.foodapp.android.foodapp.network.GetRecipeDataService;
 import com.foodapp.android.foodapp.network.RetrofitInstance;
+import com.foodapp.android.foodapp.oldActivity.FavouriteActivity;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -59,11 +60,11 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
         //print username of user
         //Log.i("USER", ParseUser.getCurrentUser().getUsername().toString());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ingredient_search);
+        setContentView(R.layout.fragment_ingredient_search);
         backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
         mSearch = (EditText) findViewById(R.id.editText_input);
         searchButton = (Button) findViewById(R.id.button_search);
-        navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
+        //navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
         resultsText = (TextView) findViewById(R.id.results_text);
         loadBar = (ProgressBar) findViewById(R.id.progressBar_load);
         loadBar.setVisibility(View.INVISIBLE);

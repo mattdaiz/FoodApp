@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/search"
+        android:icon="@drawable/search1"
         android:title="SEARCH"/>
 
     <item
@@ -12,8 +12,13 @@
         android:title="FAVOURITES"/>
 
     <item
+        android:id="@+id/shoppingCart"
+        android:icon="@drawable/shopping_cart"
+        android:title="SHOPPING lIST"/>
+
+    <item
         android:id="@+id/logout"
-        android:icon="@drawable/favourite"
+        android:icon="@drawable/logout"
         android:title="LOGOUT"/>
 
 

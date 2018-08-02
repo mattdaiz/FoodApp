@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.FavouriteActivity">
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/progressBar_load"
@@ -13,16 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/progressbar_color" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigationbar"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
-        app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@color/colorAccent"
-        app:menu="@menu/navi_menu" />
 
     <TextView
         android:id="@+id/results_text"
@@ -37,8 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/navigationbar" >
+        android:layout_alignParentStart="true">
 
     </android.support.v7.widget.RecyclerView>
 

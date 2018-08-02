@@ -12,4 +12,5 @@
     <dimen name="recipe_title">15sp</dimen>
     <dimen name="recipe_count_padding_bottom">5dp</dimen>
     <dimen name="recipe_count">12sp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 </resources>

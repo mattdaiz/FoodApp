@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -26,7 +25,6 @@ import com.foodapp.android.foodapp.network.RetrofitInstance;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -62,7 +60,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
 
     private final String APP_ID = "c64ff1e0";
     private final String APP_KEY = "0e7ff170e9c952c81bf4bf7b2fb0988c";
-    private static final String TAG = IngredientSearchActivity.class.getSimpleName();
+    //private static final String TAG = com.foodapp.android.foodapp.activity.IngredientSearchActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

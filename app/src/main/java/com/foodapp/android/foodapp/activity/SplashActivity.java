@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         else
         {
             // call IngredientSearch Activity - user previously logged in
-            Intent i = new Intent(SplashActivity.this, IngredientSearchActivity.class);
+            Intent i = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(i);
         }
         finish();

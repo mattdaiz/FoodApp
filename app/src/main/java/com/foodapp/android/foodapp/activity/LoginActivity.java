@@ -99,8 +99,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             // Stores information that user already logged in
                             SharedPreference.setUserName(getApplicationContext(),user.getObjectId());
-
-                            Intent i = new Intent(LoginActivity.this, IngredientSearchActivity.class);
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
                         }else{

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.IngredientSearchActivity"
     android:clickable="true">
 
     <TextView
@@ -21,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/editText_input"
         android:onClick="onClickSearchRecipe"
         android:padding="4dp"
@@ -30,10 +28,11 @@
         android:id="@+id/editText_input"
         android:layout_width="258dp"
         android:layout_height="46dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:ems="10"
         android:hint="@string/hint_search"
         android:inputType="textPersonName"
@@ -46,24 +45,4 @@
         android:layout_below="@id/editText_input"
         android:padding="4dp"
         android:scrollbars="vertical" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigationbar"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
-        app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@color/colorAccent"
-        app:menu="@menu/navi_menu" />
-
-    <ProgressBar
-        android:id="@+id/progressBar_load"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/progressbar_color" />
-
 </RelativeLayout>

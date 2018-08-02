@@ -21,11 +21,9 @@ import java.util.List;
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.RecipeViewHolder> {
     private List<Results> ParseList;
-    private Context context;
 
-    public FavouriteAdapter(Context context, List<Results> ParseList){
+    public FavouriteAdapter( List<Results> ParseList){
         this.ParseList = ParseList;
-        this.context = context;
     }
 
 

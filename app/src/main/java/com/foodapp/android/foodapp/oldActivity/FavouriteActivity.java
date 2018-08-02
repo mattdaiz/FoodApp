@@ -1,14 +1,12 @@
-package com.foodapp.android.foodapp.activity;
+package com.foodapp.android.foodapp.oldActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,7 +21,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FavouriteActivity extends AppCompatActivity {
@@ -45,8 +42,7 @@ public class FavouriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favourite);
-        navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
+        setContentView(R.layout.fragment_favourite);
         resultsTextView = (TextView) findViewById(R.id.results_text);
         loadBar = (ProgressBar) findViewById(R.id.progressBar_load);
 
@@ -73,7 +69,7 @@ public class FavouriteActivity extends AppCompatActivity {
                     Log.i("Count", Integer.toString(count));
                 }
                 loadBar.setVisibility(View.INVISIBLE);
-                adapter = new FavouriteAdapter(getApplicationContext(), resultList);
+                adapter = new FavouriteAdapter(resultList);
                 favouriteRecyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 noResults(resultsTextView,resultList);
@@ -82,31 +78,31 @@ public class FavouriteActivity extends AppCompatActivity {
         });
 
         //set up for navigation bar
-        navigationBar.setItemIconTintList(null);
-        navigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.search:
-                        Intent i = new Intent(FavouriteActivity.this, IngredientSearchActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(i);
-                        //we dont want finish() incase they want to come back to it
-                        //finish();
-                        return true;
-                    case R.id.favourites:
-                        return true;
-                    case R.id.logout:
-                        Intent j = new Intent(FavouriteActivity.this, LoginActivity.class);
-                        ParseUser.logOut();
-                        SharedPreference.clearUserName(getApplicationContext());
-                        startActivity(j);
-                        finish();
-                        return true;
-                }
-                return true;
-            }
-        });
+//        navigationBar.setItemIconTintList(null);
+//        navigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.search:
+//                        Intent i = new Intent(FavouriteActivity.this, IngredientSearchActivity.class);
+//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(i);
+//                        //we dont want finish() incase they want to come back to it
+//                        //finish();
+//                        return true;
+//                    case R.id.favourites:
+//                        return true;
+//                    case R.id.logout:
+//                        Intent j = new Intent(FavouriteActivity.this, LoginActivity.class);
+//                        ParseUser.logOut();
+//                        SharedPreference.clearUserName(getApplicationContext());
+//                        startActivity(j);
+//                        finish();
+//                        return true;
+//                }
+//                return true;
+//            }
+//        });
     }
 
     // Refreshes activity if user unfavourites a recipe

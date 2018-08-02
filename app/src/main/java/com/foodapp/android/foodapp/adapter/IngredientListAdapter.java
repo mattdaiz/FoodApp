@@ -3,6 +3,7 @@ package com.foodapp.android.foodapp.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,12 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
         IngredientViewHolder (View itemView){
             super(itemView);
             txtIngredient = (TextView) itemView.findViewById(R.id.textView_ingredient);
+            txtIngredient.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Log.i("TEST","Name clicked : "+getAdapterPosition());
+                }
+            });
         }
     }
 }

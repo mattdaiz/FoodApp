@@ -20,26 +20,37 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme">
+        </activity>
+
         <activity
             android:name=".activity.RecipeActivity"
             android:label="Recipe_Identity"
             android:launchMode="singleTop" />
+
         <activity
-            android:name=".activity.FavouriteActivity"
+            android:name=".oldActivity.FavouriteActivity"
             android:launchMode="singleTop" />
+
         <activity
-            android:name=".activity.IngredientSearchActivity"
+            android:name=".oldActivity.IngredientSearchActivity"
             android:label="IngredientSearch"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.SignupActivity"></activity>
+
+        <activity android:name=".activity.SignupActivity" />
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

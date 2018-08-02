@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
+//import com.foodapp.android.foodapp.oldactivity.IngredientSearchActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
@@ -101,7 +102,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                     // Stores information that user already logged in
                                     SharedPreference.setUserName(getApplicationContext(), user.getObjectId());
 
-                                    Intent i = new Intent(SignupActivity.this, IngredientSearchActivity.class);
+                                    Intent i = new Intent(SignupActivity.this, MainActivity.class);
                                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(i);
                                 } else {
