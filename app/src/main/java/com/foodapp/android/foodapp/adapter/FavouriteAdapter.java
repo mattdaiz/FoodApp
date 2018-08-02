@@ -1,8 +1,10 @@
 package com.foodapp.android.foodapp.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.foodapp.android.foodapp.R;
+import com.foodapp.android.foodapp.activity.MainActivity;
 import com.foodapp.android.foodapp.activity.RecipeActivity;
+import com.foodapp.android.foodapp.fragment.FavouriteFragment;
 import com.foodapp.android.foodapp.model.FavouriteUser.Results;
 import com.squareup.picasso.Picasso;
 
@@ -69,8 +73,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Reci
                 public void onClick(View v) {
                     Log.i("Recipe Clicked", "Clicked");
                     Intent intent = new Intent(v.getContext(), RecipeActivity.class);
+                    //shared element transition
+                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(),(View)recipePhoto,"myImage");
                     intent.putExtra("recipeId", ParseList.get(getAdapterPosition()).getRecipeId());
-                    v.getContext().startActivity(intent);
+                    v.getContext().startActivity(intent,optionsCompat.toBundle());
                 }
             });
         }

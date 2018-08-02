@@ -1,8 +1,10 @@
 package com.foodapp.android.foodapp.adapter;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,7 +48,9 @@ public class IngredientSearchAdapter extends RecyclerView.Adapter<IngredientSear
                     Toast.makeText(v.getContext(), "Position:" + Integer.toString(getLayoutPosition()), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(v.getContext(), RecipeActivity.class);
                     intent.putExtra("recipeId", dataList.get(getAdapterPosition()).getId());
-                    v.getContext().startActivity(intent);
+                    //shared element transition
+                    ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(),(View)imgFood,"myImage");
+                    v.getContext().startActivity(intent,optionsCompat.toBundle());
                 }
             });
         }

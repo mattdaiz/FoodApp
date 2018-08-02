@@ -24,7 +24,8 @@
                 android:layout_height="@dimen/recipe_cover_height"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/recipeImage"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:transitionName="myImage" />
 
             <TextView
                 android:id="@+id/txt_recipe_label"

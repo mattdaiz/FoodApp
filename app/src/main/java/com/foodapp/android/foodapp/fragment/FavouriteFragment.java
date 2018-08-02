@@ -61,9 +61,6 @@ public class FavouriteFragment extends Fragment {
         LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
         favouriteRecyclerView.setLayoutManager(linearlayout);
 
-        //update bool to show in frag1
-        MainActivity.isFragment1Shown=false;
-        MainActivity.isFragment2Shown=true;
 
         loadBar.setVisibility(View.VISIBLE);
         // Parse through database and pass data to adapter
