@@ -34,6 +34,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -121,6 +122,8 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                 favourite.put("recipeName", recipeName);
                 favourite.put("recipeId", intent.getStringExtra("recipeId"));
                 favourite.put("recipePhoto", photo_url);
+                List<String> ingredientList = new ArrayList<>();
+                favourite.put("ingredientList", ingredientList);
                 Log.i("photoURL", photo_url);
                 favourite.saveInBackground(new SaveCallback() {
                     @Override
@@ -197,10 +200,11 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
 
     /*Method to generate recipe info using RecyclerView with custom adapter*/
     private void generateRecipeInfo(List<String> recipeIngredientList) {
+        Intent intent = getIntent();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_ingredients);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(RecipeActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new IngredientListAdapter(RecipeActivity.this, recipeIngredientList);
+        adapter = new IngredientListAdapter(RecipeActivity.this, recipeIngredientList, intent);
         recyclerView.setAdapter(adapter);
     }
 
@@ -208,4 +212,6 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(prep_url));
         startActivity(browserIntent);
     }
+
+
 }

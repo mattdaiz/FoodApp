@@ -20,7 +20,7 @@
         android:textSize="18sp" />
 
     <com.like.LikeButton
-        android:id="@+id/star_button"
+        android:id="@+id/ingredientSave_button"
         android:layout_width="50dp"
         android:layout_height="45dp"
         android:layout_alignParentEnd="true"
