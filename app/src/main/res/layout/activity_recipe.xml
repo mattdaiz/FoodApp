@@ -14,9 +14,9 @@
         android:background="@drawable/progressbar_color" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout_recipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relativeLayout_recipe">
+        android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     android:layout_height="360dp"
                     android:contentDescription="TODO"
                     android:scaleType="fitXY"
-                    android:transitionName="myImage"/>
+                    android:transitionName="myImage" />
 
                 <TextView
                     android:id="@+id/textView_recipeRating"
@@ -43,8 +43,10 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="330dp"
+                    android:shadowColor="#000"
+                    android:shadowRadius="7.0"
                     android:text="Overall Rating"
-                    android:textColor="@android:color/white"
+                    android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 
 
@@ -118,10 +120,13 @@
 
                 <com.like.LikeButton
                     android:id="@+id/star_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:layout_alignEnd="@+id/textView_name"
-                    android:layout_alignTop="@+id/ratingBar_recipe"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/textView_name"
+                    android:layout_marginTop="292dp"
+                    app:anim_scale_factor="2"
                     app:icon_size="30dp"
                     app:icon_type="heart" />
 

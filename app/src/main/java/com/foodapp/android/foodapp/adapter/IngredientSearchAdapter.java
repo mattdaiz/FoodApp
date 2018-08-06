@@ -45,7 +45,6 @@ public class IngredientSearchAdapter extends RecyclerView.Adapter<IngredientSear
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Position:" + Integer.toString(getLayoutPosition()), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(v.getContext(), RecipeActivity.class);
                     intent.putExtra("recipeId", dataList.get(getAdapterPosition()).getId());
                     //shared element transition
