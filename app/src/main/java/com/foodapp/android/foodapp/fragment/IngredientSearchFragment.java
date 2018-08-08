@@ -151,7 +151,6 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_search) {
-            Log.i("CLICKED","search");
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
             onClickSearchRecipe(view);

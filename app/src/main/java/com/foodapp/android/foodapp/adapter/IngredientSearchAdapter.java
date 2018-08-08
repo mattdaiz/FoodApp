@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.activity.RecipeActivity;
@@ -59,7 +58,7 @@ public class IngredientSearchAdapter extends RecyclerView.Adapter<IngredientSear
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.row_ingredient_search, parent, false);
+        View view = layoutInflater.inflate(R.layout.custom_ingredient_search, parent, false);
         return new RecipeViewHolder(view);
     }
 

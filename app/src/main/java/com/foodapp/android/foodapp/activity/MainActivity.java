@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.fragment.FavouriteFragment;
 import com.foodapp.android.foodapp.fragment.IngredientSearchFragment;
+import com.foodapp.android.foodapp.fragment.ShoppingListFragment;
 
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -52,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.favourite
         };
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.getTabAt(0).setIcon(ICONS[0]).setText(R.string.tab_text_1);
-        tabLayout.getTabAt(1).setIcon(ICONS[1]).setText(R.string.tab_text_2);
+//        tabLayout.setupWithViewPager(mViewPager);
+//        tabLayout.getTabAt(0).setIcon(ICONS[0]).setText(R.string.tab_text_1);
+//        tabLayout.getTabAt(1).setIcon(ICONS[1]).setText(R.string.tab_text_2);
+//        tabLayout.getTabAt(2).setIcon(ICONS[0]).setText("SHOPPING LIST");
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -112,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     FavouriteFragment fragment2 = new FavouriteFragment();
                     return fragment2;
+                case 2:
+                    ShoppingListFragment fragment3 = new ShoppingListFragment();
+                    return fragment3;
                 default:
                     return null;
             }
@@ -119,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            // Show 3 total pages.
+            return 3;
         }
     }
 

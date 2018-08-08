@@ -89,17 +89,17 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
 
         // Query to search in the database
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
+        query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 Intent intent = getIntent();
                 if (e == null){
                     if (objects.size() > 0){
-                        Log.i("size",String.valueOf(objects.size()));
+                        //Log.i("size",String.valueOf(objects.size()));
                         // Iterate through all the user's favourite recipe's
                         for (ParseObject object : objects){
                             if (object.getString("recipeId").equals(intent.getStringExtra("recipeId")) && object.getString("username").equals(ParseUser.getCurrentUser().getUsername().toString())) {
-                                Log.i("Recipe in Database", "YES");
                                 likeButton.setLiked(true);
                                 break;
                             } else{
@@ -124,7 +124,6 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                 favourite.put("recipePhoto", photo_url);
                 List<String> ingredientList = new ArrayList<>();
                 favourite.put("ingredientList", ingredientList);
-                Log.i("photoURL", photo_url);
                 favourite.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
