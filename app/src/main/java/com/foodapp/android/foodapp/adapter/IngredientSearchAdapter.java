@@ -69,7 +69,7 @@ public class IngredientSearchAdapter extends RecyclerView.Adapter<IngredientSear
         holder.txtRecipeRating.setText("Rating: " + dataList.get(position).getRating());
         //String pictureUrl = dataList.get(position).getImageUrlsBySize().get90();
         Picasso.get().load(dataList.get(position).getImageUrlsBySize().get90().replace("=s90", "=s360")).into(holder.imgFood);
-        Log.d("TAG", "Position: " + position);
+        //Log.d("TAG", "Position: " + position);
     }
 
     @Override

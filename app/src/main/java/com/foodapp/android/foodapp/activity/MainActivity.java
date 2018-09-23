@@ -2,6 +2,7 @@ package com.foodapp.android.foodapp.activity;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        // Keeps lifecycle of Fragment - Prevents destroy from shopping list to search
+        mViewPager.setOffscreenPageLimit(2);
 
         // Set up the tabs with icons and text
         final int[] ICONS = new int[]{
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
      * FragmentPagerAdapter that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);

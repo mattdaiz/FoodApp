@@ -47,7 +47,7 @@ public class FavouriteFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favourite, container, false);
-        
+
         resultsTextView = (TextView) rootView.findViewById(R.id.results_text);
         loadBar = (ProgressBar) rootView.findViewById(R.id.progressBar_load);
 
@@ -55,10 +55,16 @@ public class FavouriteFragment extends Fragment {
         LinearLayoutManager linearlayout = new LinearLayoutManager(getActivity());
         favouriteRecyclerView.setLayoutManager(linearlayout);
 
+        return rootView;
+    }
 
+    public void getFavouritesFromParse(){
         loadBar.setVisibility(View.VISIBLE);
+        favouriteRecyclerView.setVisibility(View.INVISIBLE);
+
         // Parse through database and pass data to adapter
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
+        query.orderByAscending("createdAt");
         query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -71,14 +77,22 @@ public class FavouriteFragment extends Fragment {
                     }
                 }
                 loadBar.setVisibility(View.INVISIBLE);
+                favouriteRecyclerView.setVisibility(View.VISIBLE);
                 favouriteRecyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 noResults(resultsTextView, resultList);
             }
         });
-        return rootView;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser){
+            getFavouritesFromParse();
+        }
+    }
 
     //displays noResults if no favourites
     public static void noResults(TextView resultsText, List<Results> list) {
@@ -87,26 +101,15 @@ public class FavouriteFragment extends Fragment {
         }
     }
 
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        System.out.println("PAUSED PAUSED");
+//    }
 
     @Override
     public void onResume() {
         super.onResume();
-        //loadBar.setVisibility(View.VISIBLE);
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
-        query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                resultList.clear();
-                if (e == null) {
-                    for (ParseObject object : objects) {
-                        Results result = new Results(object.getString("recipePhoto"), object.getString("recipeName"), object.getString("recipeId"));
-                        resultList.add(result);
-                    }
-                }
-                //loadBar.setVisibility(View.INVISIBLE);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        getFavouritesFromParse();
     }
 }
