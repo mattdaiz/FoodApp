@@ -1,10 +1,12 @@
 package com.foodapp.android.foodapp.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,8 +16,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -153,9 +158,61 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         if (view.getId() == R.id.button_search) {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-            onClickSearchRecipe(view);
+            //onClickSearchRecipe(view);
+            AddRecipeBox(view);
             //loadBar.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void AddRecipeBox(View view){
+        // setup the alert builder
+        //AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        //builder.setTitle("Add Ingredients");
+        Dialog dialog = new Dialog(view.getContext(), R.style.Theme_AppCompat_Light_Dialog);
+        //builder.setView(LayoutInflater.from(view.getContext()).inflate(R.layout.recipebox,null));
+
+        dialog.setContentView(R.layout.recipebox);
+        final ListView mShoppingList;
+        final EditText mItemEdit;
+        Button mAddButton;
+        final ArrayAdapter<String> mAdapter;
+
+        final ArrayList<String> food = new ArrayList<>();
+
+        // create and show the alert dialog
+        //AlertDialog dialog = builder.create();
+
+        mShoppingList = (ListView) dialog.findViewById(R.id.shopping_listView);
+        mItemEdit = (EditText) dialog.findViewById(R.id.item_editText);
+        mAddButton = (Button) dialog.findViewById(R.id.add_button);
+        mAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1,food);
+        mShoppingList.setAdapter(mAdapter);
+
+
+
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String item = mItemEdit.getText().toString();
+                mAdapter.add(item);
+                mAdapter.notifyDataSetChanged();
+                mShoppingList.setSelection(mAdapter.getCount() - 1);
+                mItemEdit.setText("");
+            }
+        });
+
+        mShoppingList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mAdapter.remove(food.get(position));
+                mAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        dialog.show();
+        //dialog.getWindow().setLayout(1000,1000);
+
     }
 
 
