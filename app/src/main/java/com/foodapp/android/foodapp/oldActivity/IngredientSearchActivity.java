@@ -61,8 +61,8 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
         //Log.i("USER", ParseUser.getCurrentUser().getUsername().toString());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_ingredient_search);
-        backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
-        mSearch = (EditText) findViewById(R.id.editText_input);
+        backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.relativeView);
+        //mSearch = (EditText) findViewById(R.id.editText_input);
         searchButton = (Button) findViewById(R.id.button_search);
         //navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
         resultsText = (TextView) findViewById(R.id.results_text);
