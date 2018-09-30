@@ -37,6 +37,8 @@ import com.foodapp.android.foodapp.network.RetrofitInstance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -112,12 +114,14 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
                 if (!recyclerView.canScrollVertically(1) && dy != 0) {
                     // Load more results here
                     //loadBar.setVisibility(View.VISIBLE);
-                    resultPagination += 10;
+                    resultPagination += 20;
                     //create string for allowedIngredients
                     String result[] = searchQuery.trim().split("\\s*,\\s*");
-                    String urlString = "/v1/api/recipes?_app_id=" + APP_ID + "&_app_key=" + APP_KEY + "&maxResult=10" + "&start=" + resultPagination;
+                    String urlString = "/v1/api/recipes?_app_id=" + APP_ID + "&_app_key=" + APP_KEY + "&maxResult=20" + "&start=" + resultPagination;
                     //goes through array and append allowedIngredient onto it if matches alphabet
+                    int numberOfIngredients = 0;
                     for (String s : result) {
+                        numberOfIngredients ++;
                         //Log.i("Word",s);
                         //matches correctly even if user enters garlic, , cognac
                         if (s.matches("[a-zA-Z]+")) {
@@ -140,12 +144,13 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
 
                     // Utilize call object via async or sync
                     // let's use the Call asynchronously
+                    final int finalNumberOfIngredients = numberOfIngredients;
                     call.enqueue(new Callback<RecipeList>() {
 
                         // 1. Need onResponse
                         @Override
                         public void onResponse(Call<RecipeList> call, Response<RecipeList> response) {
-                            UpdateRecipeList(response.body().getMatches());
+                            UpdateRecipeList(response.body().getMatches(), finalNumberOfIngredients);
                             //loadBar.setVisibility(View.INVISIBLE);
                         }
 
@@ -162,7 +167,6 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         });
         return rootView;
     }
-
 
     //Hides keyboard onClick  press search button
     @Override
@@ -284,11 +288,6 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
 
     }
 
-
-
-
-
-
     public void onClickSearchRecipe(View view, String searchIngredients) {
 
         //make sure text is blank at beginning
@@ -298,9 +297,11 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         resultPagination = 0;
         //create string for allowedIngredients
         String result[] = searchQuery.trim().split("\\s*,\\s*");
-        String urlString = "/v1/api/recipes?_app_id=" + APP_ID + "&_app_key=" + APP_KEY + "&maxResult=10" + "&start=" + resultPagination;
+        String urlString = "/v1/api/recipes?_app_id=" + APP_ID + "&_app_key=" + APP_KEY + "&maxResult=20" + "&start=" + resultPagination;
         //goes through array and append allowedIngredient onto it if matches alphabet
+        int numberOfIngredients = 0;
         for (String s : result) {
+            numberOfIngredients ++;
             //Log.i("Word",s);
             //matches correctly even if user enters garlic, , cognac
             if (s.matches("[a-zA-Z]+")) {
@@ -324,6 +325,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
 
         // Utilize call object via async or sync
         // let's use the Call asynchronously
+        final int finalNumberOfIngredients = numberOfIngredients;
         call.enqueue(new Callback<RecipeList>() {
 
             // 1. Need onResponse
@@ -336,7 +338,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
                 if (response.body().getMatches().isEmpty()){
                     resultsText.setText("No Results");
                 }
-                generateRecipeList(response.body().getMatches());
+                generateRecipeList(response.body().getMatches(), finalNumberOfIngredients);
                 //loadBar.setVisibility(View.INVISIBLE);
             }
 
@@ -350,20 +352,48 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         });
     }
 
-    /*Method to generate List of recipes using RecyclerView with custom adapter*/
-    private void generateRecipeList(List<Match> recipeDataList) {
+    /* Generates List of Recipes when user clicks search */
+    private void generateRecipeList(List<Match> recipeDataList, int ingredients) {
         allMatches.clear();
+        // Produces numerical score for each recipe
+        weightedSearchByIngredients(recipeDataList, ingredients);
         allMatches.addAll(recipeDataList);
         adapter = new IngredientSearchAdapter(allMatches);
         recyclerView.setAdapter(adapter);
+        for (Match recipe : recipeDataList){
+            System.out.println("Recipe: " + recipe.getRecipeName()
+                    + "| Weight: " + recipe.getWeight()
+                    + "| Ingredients: " + recipe.getIngredients().size());
+        }
     }
 
-    /*Method to generate List of recipes using RecyclerView with custom adapter*/
-    private void UpdateRecipeList(List<Match> recipeDataList) {
+    /* Generates more Recipes when user clicks scrolls down scrollView */
+    private void UpdateRecipeList(List<Match> recipeDataList, int ingredients) {
+        weightedSearchByIngredients(recipeDataList, ingredients);
         List<Match> moreMatches = recipeDataList;
         int curSize = adapter.getItemCount();
         allMatches.addAll(moreMatches);
         adapter.notifyItemRangeInserted(curSize, allMatches.size() - 1);
+//        for (Match recipe : allMatches){
+//            System.out.println("Recipe: " + recipe.getRecipeName()
+//                    + "| Weight: " + recipe.getWeight()
+//                    + "| Ingredients: " + recipe.getIngredients().size());
+//        }
+    }
+
+    /* Search based on the overall ingredients available - Sorted by lower weighted recipes */
+    public void weightedSearchByIngredients(List <Match> recipeDataList, int ingredients){
+        for (Match recipe : recipeDataList){
+            recipe.setWeight(recipe.getIngredients().size()/(float)ingredients);
+            //System.out.println("Recipe: " + recipe.getRecipeName() + "| Weight: " + recipe.getWeight());
+        }
+        // Sorts the ArrayList based on weight score
+        Collections.sort(recipeDataList, new Comparator<Match>() {
+            @Override
+            public int compare(Match recipe1, Match recipe2) {
+                return Float.compare(recipe1.getWeight(), recipe2.getWeight());
+            }
+        });
     }
 
     //keyboard gone once click enter and also searches
