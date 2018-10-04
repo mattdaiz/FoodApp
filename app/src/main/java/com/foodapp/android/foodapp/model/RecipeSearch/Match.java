@@ -36,6 +36,15 @@ public class Match {
     @SerializedName("recipeName")
     @Expose
     private String recipeName;
+    private float weight;
+
+    public float getWeight(){
+        return weight;
+    }
+
+    public void setWeight(float number){
+        this.weight = number;
+    }
 
     public ImageUrlsBySize getImageUrlsBySize() {
         return imageUrlsBySize;
