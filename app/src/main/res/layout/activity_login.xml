@@ -54,7 +54,8 @@
         android:ems="10"
         android:hint="Enter your username..."
         android:inputType="textPersonName"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        android:textCursorDrawable="@drawable/custom_cursor_login" />
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -64,7 +65,8 @@
         android:ems="10"
         android:hint="Enter your password..."
         android:inputType="textPassword"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        android:textCursorDrawable="@drawable/custom_cursor_login" />
 
     <ImageView
         android:layout_width="254dp"

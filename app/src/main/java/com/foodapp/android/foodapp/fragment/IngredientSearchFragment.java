@@ -3,6 +3,8 @@ package com.foodapp.android.foodapp.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -189,6 +191,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
 
         dialog.setContentView(R.layout.dialog_recipebox);
         dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         final ListView mShoppingList;
         final EditText mItemEdit;
         Button mAddButton, mSearchButton;
