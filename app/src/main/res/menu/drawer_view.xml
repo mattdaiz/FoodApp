@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_top">
+        <item
+            android:id="@+id/privacy_policy"
+            android:title="Privacy Policy" />
+        <item
+            android:id="@+id/about_us"
+            android:title="About Us" />
+
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom">
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/logout_black"
             android:title="Logout" />
     </group>
+
+
 </menu>
