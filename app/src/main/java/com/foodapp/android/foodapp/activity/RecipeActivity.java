@@ -1,6 +1,7 @@
 package com.foodapp.android.foodapp.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +49,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
     private String prep_url;
     private String photo_url;
     private String recipeName;
+    private String recipePosition;
 
     TextView txtRecipeName, txtPrepTime, txtRecipeYield;
     ImageView imgFood;
@@ -68,7 +70,7 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
         String value = getIntent().getStringExtra("recipeId");
-
+        recipePosition = getIntent().getStringExtra("recipePosition");
         recipeLayout = (RelativeLayout) findViewById(R.id.relativeLayout_recipe);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_load);
         imgFood = (ImageView) findViewById(R.id.imageView_Recipe_image);
@@ -195,6 +197,9 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(RecipeActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
     }
 
     /*Method to generate recipe info using RecyclerView with custom adapter*/
@@ -212,5 +217,12 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(browserIntent);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Log.i("BREAK",recipePosition);
+        SharedPreference.setLiked(this,recipePosition);
+        finish();
+    }
 
 }

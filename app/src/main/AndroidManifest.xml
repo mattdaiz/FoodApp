@@ -32,8 +32,7 @@
 
         <activity
             android:name=".activity.RecipeActivity"
-            android:label="Recipe_Identity"
-            android:launchMode="singleTop" />
+            android:label="Recipe_Identity" />
 
         <activity
             android:name=".oldActivity.FavouriteActivity"

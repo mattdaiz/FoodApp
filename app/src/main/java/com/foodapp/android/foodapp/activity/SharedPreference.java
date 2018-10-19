@@ -6,9 +6,11 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class SharedPreference {
-    private static final String PREF_USER_NAME = "username";
+    public static final String PREF_USER_NAME = "username";
+    public static final String PREF_LIKED = "liked";
 
-    private static SharedPreferences getSharedPreferences(Context context) {
+
+    public static SharedPreferences getSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -27,4 +29,22 @@ public class SharedPreference {
         editor.clear(); //clear all stored data
         editor.apply();
     }
+
+    public static void setLiked(Context context, String position) {
+        Editor editor = getSharedPreferences(context).edit();
+        editor.putString(PREF_LIKED, position);
+        editor.apply();
+    }
+
+    public static String getLiked(Context context) {
+        return getSharedPreferences(context).getString(PREF_LIKED, "");
+    }
+
+    public static void removeLiked(Context context) {
+        Editor editor = getSharedPreferences(context).edit();
+        editor.putString(PREF_LIKED, "EMPTY");
+        editor.apply();
+    }
+
+
 }

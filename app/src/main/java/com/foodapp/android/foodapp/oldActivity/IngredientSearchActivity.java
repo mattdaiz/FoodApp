@@ -64,7 +64,6 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
         backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.relativeView);
         //mSearch = (EditText) findViewById(R.id.editText_input);
         searchButton = (Button) findViewById(R.id.button_search);
-        //navigationBar = (BottomNavigationView) findViewById(R.id.navigationbar);
         resultsText = (TextView) findViewById(R.id.results_text);
         loadBar = (ProgressBar) findViewById(R.id.progressBar_load);
         loadBar.setVisibility(View.INVISIBLE);
@@ -75,33 +74,6 @@ public class IngredientSearchActivity extends AppCompatActivity implements View.
         //when enter on keyboard is pressed, auto search and keyboard hide.
         mSearch.setOnKeyListener(this);
 
-        //set up navigation bar
-        navigationBar.setItemIconTintList(null);
-        navigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //switch case for whichever is pressed
-                switch (item.getItemId()) {
-                    case R.id.search:
-                        return true;
-                    case R.id.favourites:
-                        Intent i = new Intent(IngredientSearchActivity.this, FavouriteActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(i);
-                        //finish();
-                        return true;
-                    case R.id.logout:
-                        ParseUser.logOut();
-                        Intent j = new Intent(IngredientSearchActivity.this, LoginActivity.class);
-                        j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        SharedPreference.clearUserName(getApplicationContext());
-                        startActivity(j);
-                        finish();
-                        return true;
-                }
-                return true;
-            }
-        });
 
 
         // Endless Pagination

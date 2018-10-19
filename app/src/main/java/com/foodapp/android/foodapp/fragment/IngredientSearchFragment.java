@@ -3,6 +3,8 @@ package com.foodapp.android.foodapp.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
+import com.foodapp.android.foodapp.activity.SharedPreference;
 import com.foodapp.android.foodapp.adapter.IngredientSearchAdapter;
 import com.foodapp.android.foodapp.model.RecipeSearch.Match;
 import com.foodapp.android.foodapp.model.RecipeSearch.RecipeList;
@@ -47,7 +50,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
+import static com.foodapp.android.foodapp.activity.SharedPreference.getSharedPreferences;
 
 public class IngredientSearchFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
     private IngredientSearchAdapter adapter;
@@ -197,13 +203,11 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         Button mAddButton, mSearchButton;
         final ArrayAdapter<String> mAdapter;
         final ArrayList<String> food = new ArrayList<String>();
-        Log.i("Test",searchQuery);
         if (!searchQuery.isEmpty()){
              ArrayList<String> temp = new ArrayList(Arrays.asList(searchQuery.split(",")));
              for (String s: temp){
                  food.add(s);
              }
-             Log.i("Test1",food.toString());
         }
 
 
@@ -223,7 +227,6 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 if (!food.isEmpty()) {
-                    Log.d("test1", food.toString());
                     String searchQuery = "";
 
                     for (String s : food) {
@@ -246,7 +249,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String item = mItemEdit.getText().toString();
+                String item = mItemEdit.getText().toString().trim();
                 if(item.matches("[a-zA-Z]+")) {
                     //mAdapter.add(item);
                     food.add(item);
@@ -416,5 +419,18 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         return false;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String recipePosition = SharedPreference.getLiked(getContext());
+        if(!recipePosition.equals("EMPTY")) {
+            Log.i("BREAK", recipePosition);
+            adapter.notifyItemChanged(Integer.valueOf(recipePosition));
+            //adapter.notifyDataSetChanged();
+        }
+        SharedPreference.removeLiked(getContext());
     }
 }
