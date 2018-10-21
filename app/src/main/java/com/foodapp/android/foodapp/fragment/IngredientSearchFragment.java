@@ -82,6 +82,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState){
+        SharedPreference.removeLiked(getContext());
         View rootView = inflater.inflate(R.layout.fragment_ingredient_search, container, false);
         //backgroundRelativeLayout = (RelativeLayout) rootView.findViewById(R.id.activity_main);
         //mSearch = (EditText) rootView.findViewById(R.id.editText_input);
