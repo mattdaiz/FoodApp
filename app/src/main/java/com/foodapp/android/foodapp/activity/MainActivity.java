@@ -94,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
 
                 break;
+
+            case R.id.messaging:
+                Intent intent = new Intent(MainActivity.this, MessageInboxActivity.class);
+                startActivity(intent);
             default:
                 break;
 

@@ -11,8 +11,11 @@ package com.foodapp.android.foodapp.activity;
 import android.app.Application;
 import android.util.Log;
 
+import com.foodapp.android.foodapp.model.Messaging.Message;
+import com.foodapp.android.foodapp.model.Messaging.MessageInbox;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 
@@ -24,6 +27,11 @@ public class StarterApplication extends Application {
     Log.i("STARTER","SFDSFDF");
     // Enable Local Datastore.
     Parse.enableLocalDatastore(this);
+
+    //Register Message Class
+    ParseObject.registerSubclass(Message.class);
+    //Register MessageInbox Class
+    ParseObject.registerSubclass(MessageInbox.class);
 
     // Add your initialization code here
     Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())

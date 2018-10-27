@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.i("Signup", "Login successful");
 
                             // Stores information that user already logged in
-                            SharedPreference.setUserName(getApplicationContext(),user.getObjectId());
+                            SharedPreference.setUserName(getApplicationContext(),user.getUsername());
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(i);
