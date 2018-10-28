@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbars="vertical"
+    android:background="@drawable/dialog_bg">
+    <!--Any of your code-->
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_shareRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="330dp" />
+
+
+    <Button
+        android:layout_below="@+id/recycler_view_shareRecipe"
+        android:id="@+id/search_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Share"
+        android:background="@drawable/blue_button"
+        android:textColor="@color/colorAccent"/>
+
+</RelativeLayout>

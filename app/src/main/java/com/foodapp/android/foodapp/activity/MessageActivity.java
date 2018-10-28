@@ -1,8 +1,10 @@
 package com.foodapp.android.foodapp.activity;
 
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +15,8 @@ import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
 import com.foodapp.android.foodapp.adapter.MessageAdapter;
+import com.foodapp.android.foodapp.adapter.RecipeShareAdapter;
+import com.foodapp.android.foodapp.model.FavouriteUser.Results;
 import com.foodapp.android.foodapp.model.Messaging.Message;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
@@ -36,6 +40,7 @@ public class MessageActivity extends AppCompatActivity {
 
     EditText etMessage;
     Button btSend;
+    FloatingActionButton btShare;
 
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
@@ -43,7 +48,6 @@ public class MessageActivity extends AppCompatActivity {
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
     String receiverID;
-
 
 
     @Override
@@ -97,6 +101,7 @@ public class MessageActivity extends AppCompatActivity {
         etMessage = (EditText) findViewById(R.id.edittext_chatbox);
         btSend = (Button) findViewById(R.id.button_chatbox_send);
         rvChat = (RecyclerView) findViewById(R.id.reyclerview_message_list);
+        btShare = (FloatingActionButton) findViewById(R.id.floatingActionButton_share);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getUsername();
@@ -113,23 +118,61 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
-                //ParseObject message = ParseObject.create("Message");
-                //message.put(Message.USER_ID_KEY, userId);
-                //message.put(Message.BODY_KEY, data);
-                // Using new `Message` Parse-backed model now
-                Message message = new Message();
-                message.setBody(data);
-                message.setUserId(ParseUser.getCurrentUser().getUsername());
-                message.setUserReceiverId(receiverID);
-                message.saveInBackground(new SaveCallback() {
+                if (data.trim().isEmpty()) {
+
+                } else {
+                    //ParseObject message = ParseObject.create("Message");
+                    //message.put(Message.USER_ID_KEY, userId);
+                    //message.put(Message.BODY_KEY, data);
+                    // Using new `Message` Parse-backed model now
+                    Message message = new Message();
+                    message.setBody(data);
+                    message.setUserId(ParseUser.getCurrentUser().getUsername());
+                    message.setUserReceiverId(receiverID);
+                    message.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(MessageActivity.this, "Successfully created message on Parse", Toast.LENGTH_SHORT).show();
+                            refreshMessages();
+                        }
+                    });
+                    etMessage.setText(null);
+                }
+            }
+        });
+
+        btShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(v.getContext());
+                dialog.setContentView(R.layout.dialog_sharerecipe);
+                dialog.show();
+
+                RecyclerView rvTest = (RecyclerView) dialog.findViewById(R.id.recycler_view_shareRecipe);
+                rvTest.setLayoutManager(new LinearLayoutManager(v.getContext()));
+
+
+                final List<Results> resultList = new ArrayList<>();
+                final RecipeShareAdapter rvAdapter = new RecipeShareAdapter(v.getContext(), resultList);
+                rvTest.setAdapter(rvAdapter);
+
+                // Parse through database and pass data to adapter
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
+                query.orderByAscending("createdAt");
+                query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+                query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(MessageActivity.this, "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        refreshMessages();
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        resultList.clear();
+                        if (e == null) {
+                            for (ParseObject object : objects) {
+                                Results result = new Results(object.getString("recipePhoto"), object.getString("recipeName"), object.getString("recipeId"));
+                                resultList.add(result);
+                            }
+                        }
+                        rvAdapter.notifyDataSetChanged();
                     }
                 });
-                etMessage.setText(null);
             }
         });
     }
@@ -161,12 +204,10 @@ public class MessageActivity extends AppCompatActivity {
                 if (e == null) {
                     mMessages.clear();
 
-                    for (Message message : messages){
-                        if (message.getUserId().equals(ParseUser.getCurrentUser().getUsername())
-                                && message.getUserReceiverId().equals(receiverID)){
+                    for (Message message : messages) {
+                        if (message.getUserId().equals(ParseUser.getCurrentUser().getUsername()) && message.getUserReceiverId().equals(receiverID)) {
                             mMessages.add(message);
-                        } else if (message.getUserId().equals(receiverID)
-                                && message.getUserReceiverId().equals(ParseUser.getCurrentUser().getUsername())){
+                        } else if (message.getUserId().equals(receiverID) && message.getUserReceiverId().equals(ParseUser.getCurrentUser().getUsername())) {
                             mMessages.add(message);
                         }
                     }
