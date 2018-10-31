@@ -2,11 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="400dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog_bg"
     android:orientation="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true"
-    android:scrollbars="vertical"
-    android:background="@drawable/dialog_bg">
+    android:scrollbars="vertical">
     <!--Any of your code-->
 
 
@@ -17,13 +16,13 @@
 
 
     <Button
-        android:layout_below="@+id/recycler_view_shareRecipe"
-        android:id="@+id/search_button"
+        android:id="@+id/share_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_view_shareRecipe"
         android:layout_margin="5dp"
-        android:text="Share"
         android:background="@drawable/blue_button"
-        android:textColor="@color/colorAccent"/>
+        android:text="Share"
+        android:textColor="@color/colorAccent" />
 
 </RelativeLayout>

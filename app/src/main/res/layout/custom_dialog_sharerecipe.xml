@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:id="@+id/relativeLayout_shareRecipe"
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:background="@drawable/selector_row">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_shareRecipe"
+    <ImageView
+        android:id="@+id/list_image_shareRecipe"
+        android:layout_width="85dp"
+        android:layout_height="89dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/list_title_shareRecipe"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/list_image_shareRecipe"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitXY"
-            android:transitionName="myImage" />
-
-        <TextView
-            android:id="@+id/list_title_shareRecipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/list_image_shareRecipe"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:hint="TextView" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/list_image_shareRecipe"
+        android:gravity="center"
+        android:hint="TextView"
+        android:textSize="18sp" />
 </RelativeLayout>

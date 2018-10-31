@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -148,12 +149,26 @@ public class MessageActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.dialog_sharerecipe);
                 dialog.show();
 
+
+
                 RecyclerView rvTest = (RecyclerView) dialog.findViewById(R.id.recycler_view_shareRecipe);
-                rvTest.setLayoutManager(new LinearLayoutManager(v.getContext()));
+                LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
+                rvTest.setLayoutManager(layoutManager);
+
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(v.getContext(),
+                        layoutManager.getOrientation());
+                rvTest.addItemDecoration(dividerItemDecoration);
 
 
+                Button btShareRecipe = (Button) dialog.findViewById(R.id.share_button);
                 final List<Results> resultList = new ArrayList<>();
-                final RecipeShareAdapter rvAdapter = new RecipeShareAdapter(v.getContext(), resultList);
+                final String[] recipeId = new String[1];
+                final RecipeShareAdapter rvAdapter = new RecipeShareAdapter(v.getContext(), resultList, new RecipeShareAdapter.RecipeIdAdapterListener() {
+                    @Override
+                    public void classOnClick(View v, int position, String id) {
+                        recipeId[0] = id;
+                    }
+                });
                 rvTest.setAdapter(rvAdapter);
 
                 // Parse through database and pass data to adapter
@@ -171,6 +186,15 @@ public class MessageActivity extends AppCompatActivity {
                             }
                         }
                         rvAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                btShareRecipe.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println("Shared");
+                        System.out.println(recipeId[0]);
+
                     }
                 });
             }
