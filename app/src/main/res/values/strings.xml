@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FoodApp</string>
     <string name="button_addIng">Add Ingredients</string>
@@ -20,4 +21,5 @@
     <string name="tab_text_2">Favourites</string>
     <string name="tab_text_3">Tab 3</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="recipeMessage">&lt;b>Check Out This Recipe:&lt;/b> %1$s</string>
 </resources>

@@ -145,28 +145,28 @@ public class MessageActivity extends AppCompatActivity {
         btShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(v.getContext());
+                final Dialog dialog = new Dialog(v.getContext());
                 dialog.setContentView(R.layout.dialog_sharerecipe);
                 dialog.show();
-
 
 
                 RecyclerView rvTest = (RecyclerView) dialog.findViewById(R.id.recycler_view_shareRecipe);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
                 rvTest.setLayoutManager(layoutManager);
 
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(v.getContext(),
-                        layoutManager.getOrientation());
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(v.getContext(), layoutManager.getOrientation());
                 rvTest.addItemDecoration(dividerItemDecoration);
 
 
                 Button btShareRecipe = (Button) dialog.findViewById(R.id.share_button);
                 final List<Results> resultList = new ArrayList<>();
-                final String[] recipeId = new String[1];
+                final String[] recipeId = new String[3];
                 final RecipeShareAdapter rvAdapter = new RecipeShareAdapter(v.getContext(), resultList, new RecipeShareAdapter.RecipeIdAdapterListener() {
                     @Override
-                    public void classOnClick(View v, int position, String id) {
+                    public void classOnClick(View v, int position, String id, String photo, String name) {
                         recipeId[0] = id;
+                        recipeId[1] = photo;
+                        recipeId[2] = name;
                     }
                 });
                 rvTest.setAdapter(rvAdapter);
@@ -192,11 +192,25 @@ public class MessageActivity extends AppCompatActivity {
                 btShareRecipe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        System.out.println("Shared");
-                        System.out.println(recipeId[0]);
-
+                        //System.out.println("Shared");
+                        //System.out.println(recipeId[0]);
+                        shareRecipe(recipeId[0],recipeId[1], recipeId[2]);
+                        dialog.dismiss();
                     }
                 });
+            }
+        });
+    }
+
+    public void shareRecipe(String recipeId, String photo, String name) {
+        Message message = new Message();
+        message.setBody("RID:" + recipeId + "+" + photo + "++" + name);
+        message.setUserId(ParseUser.getCurrentUser().getUsername());
+        message.setUserReceiverId(receiverID);
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                refreshMessages();
             }
         });
     }

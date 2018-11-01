@@ -45,6 +45,8 @@ public class RecipeShareAdapter extends RecyclerView.Adapter<RecipeShareAdapter.
         Picasso.get().load(results.get(position).getRecipePhoto()).into(holder.recipePhoto);
         holder.recipeLabel.setText(results.get(position).getRecipeName());
         holder.recipeId = results.get(position).getRecipeId();
+        holder.photo = results.get(position).getRecipePhoto();
+        holder.name = results.get(position).getRecipeName();
 
         // Set the selected state of the row depending on the position
         // State color dependant on selector_row.xml
@@ -60,7 +62,7 @@ public class RecipeShareAdapter extends RecyclerView.Adapter<RecipeShareAdapter.
         ImageView recipePhoto;
         TextView recipeLabel;
         RelativeLayout relativeLayout;
-        String recipeId;
+        String recipeId, photo, name;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -70,7 +72,7 @@ public class RecipeShareAdapter extends RecyclerView.Adapter<RecipeShareAdapter.
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickListener.classOnClick(v, getAdapterPosition(), recipeId);
+                    onClickListener.classOnClick(v, getAdapterPosition(), recipeId, photo, name);
                     selectedItems.clear();
                     selectedItems.put(getAdapterPosition(), true);
                     notifyDataSetChanged();
@@ -81,6 +83,6 @@ public class RecipeShareAdapter extends RecyclerView.Adapter<RecipeShareAdapter.
 
     // Interface to keep track of clicked recipeId
     public interface RecipeIdAdapterListener {
-        void classOnClick(View v, int position, String id);
+        void classOnClick(View v, int position, String id, String photo, String name);
     }
 }
