@@ -1,6 +1,7 @@
 package com.foodapp.android.foodapp.activity;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -8,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.foodapp.android.foodapp.R;
@@ -42,6 +45,7 @@ public class MessageActivity extends AppCompatActivity {
     EditText etMessage;
     Button btSend;
     FloatingActionButton btShare;
+    TextView receiverName;
 
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
@@ -50,13 +54,25 @@ public class MessageActivity extends AppCompatActivity {
     boolean mFirstLoad;
     String receiverID;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         receiverID = getIntent().getStringExtra("userReceiver");
         System.out.println(receiverID);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setTitle(receiverID);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
         // User login
         if (ParseUser.getCurrentUser() != null) { // start with existing user
             startWithCurrentUser();
@@ -113,6 +129,10 @@ public class MessageActivity extends AppCompatActivity {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageActivity.this);
         linearLayoutManager.setReverseLayout(true);
         rvChat.setLayoutManager(linearLayoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getApplicationContext(), linearLayoutManager.getOrientation());
+        rvChat.addItemDecoration(dividerItemDecoration);
+
 
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +214,7 @@ public class MessageActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         //System.out.println("Shared");
                         //System.out.println(recipeId[0]);
-                        shareRecipe(recipeId[0],recipeId[1], recipeId[2]);
+                        shareRecipe(recipeId[0], recipeId[1], recipeId[2]);
                         dialog.dismiss();
                     }
                 });

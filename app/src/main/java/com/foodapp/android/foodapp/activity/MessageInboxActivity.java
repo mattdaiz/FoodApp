@@ -1,11 +1,14 @@
 package com.foodapp.android.foodapp.activity;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +44,17 @@ public class MessageInboxActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_inbox);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_inbox);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setTitle("Inbox");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         rvInbox = findViewById(R.id.inbox_recyclerView);
         mMessages = new ArrayList<>();
         userNames = new HashSet<>();
@@ -50,10 +64,12 @@ public class MessageInboxActivity extends AppCompatActivity {
         rvInbox.setAdapter(mAdapter);
         updateInbox();
 
-        // associate the LayoutManager with the RecylcerView
+        // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageInboxActivity.this);
         rvInbox.setLayoutManager(linearLayoutManager);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getApplicationContext(), linearLayoutManager.getOrientation());
+        rvInbox.addItemDecoration(dividerItemDecoration);
 
         FloatingActionButton userAddConvo = (FloatingActionButton) (findViewById(R.id.floatingActionButton));
         userAddConvo.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +78,6 @@ public class MessageInboxActivity extends AppCompatActivity {
                 addUserConvo(v);
             }
         });
-
     }
 
     public void addUserConvo(View view) {
