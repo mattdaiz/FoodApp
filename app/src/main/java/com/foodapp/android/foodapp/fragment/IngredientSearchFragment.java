@@ -246,7 +246,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String item = mItemEdit.getText().toString();
+                String item = mItemEdit.getText().toString().trim();
                 if(item.matches("[a-zA-Z]+")) {
                     //mAdapter.add(item);
                     food.add(item);
