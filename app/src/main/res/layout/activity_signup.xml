@@ -6,10 +6,11 @@
   ~ LICENSE file in the root directory of this source tree. An additional grant
   ~ of patent rights can be found in the PATENTS file in the same directory.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/backgroundRelativeLayout"
+    android:id="@+id/backgroundLinearLayout"
+    android:orientation="vertical"
     android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,13 +20,48 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activity.LoginActivity">
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="254dp"
+        android:layout_height="190dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/splash_text" />
+
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_below="@id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Enter your username..."
+        android:textColor="@color/colorAccent"
+        android:inputType="textPersonName"
+        android:textCursorDrawable="@drawable/custom_cursor_login" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_below="@id/usernameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ems="10"
+        android:hint="Enter your password..."
+        android:textColor="@color/colorAccent"
+        android:inputType="textPassword"
+        android:textCursorDrawable="@drawable/custom_cursor_login" />
+
     <Button
         android:id="@+id/signupButton"
-        android:layout_width="349dp"
-        android:layout_height="34dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordEditText"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="238dp"
         android:background="@color/colorPrimaryDark"
         android:onClick="signupClick"
         android:text="Create Account"
@@ -35,44 +71,16 @@
         android:id="@+id/link_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="206dp"
+        android:layout_below="@id/signupButton"
         android:gravity="center"
         android:onClick="loginClick"
         android:text="Already a member? Login"
         android:textColor="@color/colorAccent"
         android:textSize="16dip" />
 
-    <EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="228dp"
-        android:ems="10"
-        android:hint="Enter your username..."
-        android:inputType="textPersonName"
-        android:textColor="@color/colorAccent" />
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:ems="10"
-        android:hint="Enter your password..."
-        android:inputType="textPassword"
-        android:textColor="@color/colorAccent" />
 
-    <ImageView
-        android:layout_width="254dp"
-        android:layout_height="190dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="11dp"
-        android:src="@drawable/splash_text" />
 
-</RelativeLayout>
+</LinearLayout>
