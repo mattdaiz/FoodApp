@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView changeSignupModeTextView;
     EditText usernameEditText;
     EditText passwordEditText;
-    RelativeLayout backgroundRelativeLayout;
+    LinearLayout backgroundLinearLayout;
 
     //keyboard gone once click enter
     @Override
@@ -79,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //
 //            }
         //close keyboard if click somewhere else
-        if (view.getId() == R.id.backgroundRelativeLayout){
+        if (view.getId() == R.id.backgroundLinearLayout){
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
         }
@@ -116,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        backgroundRelativeLayout = (RelativeLayout) findViewById(R.id.backgroundRelativeLayout);
+        backgroundLinearLayout = (LinearLayout) findViewById(R.id.backgroundLinearLayout);
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         //changeSignupModeTextView = (TextView) findViewById(R.id.changeSignupModeTextView);
@@ -125,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         passwordEditText.setOnKeyListener(this);
 
-        backgroundRelativeLayout.setOnClickListener(this);
+        backgroundLinearLayout.setOnClickListener(this);
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }

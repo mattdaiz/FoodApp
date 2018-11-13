@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class FavouriteFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favourite, container, false);
 
-        resultsTextView = (TextView) rootView.findViewById(R.id.results_text);
+
         loadBar = (ProgressBar) rootView.findViewById(R.id.progressBar_load);
 
         favouriteRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_favourite);
@@ -61,7 +62,7 @@ public class FavouriteFragment extends Fragment {
     public void getFavouritesFromParse(){
         loadBar.setVisibility(View.VISIBLE);
         favouriteRecyclerView.setVisibility(View.INVISIBLE);
-
+        resultsTextView = (TextView) getView().findViewById(R.id.results_text);
         // Parse through database and pass data to adapter
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favourite");
         query.orderByAscending("createdAt");
@@ -98,6 +99,8 @@ public class FavouriteFragment extends Fragment {
     public static void noResults(TextView resultsText, List<Results> list) {
         if (list.isEmpty()) {
             resultsText.setText("No Results");
+        }else{
+            resultsText.setText(" ");
         }
     }
 
@@ -106,6 +109,8 @@ public class FavouriteFragment extends Fragment {
 //        super.onPause();
 //        System.out.println("PAUSED PAUSED");
 //    }
+
+
 
     @Override
     public void onResume() {

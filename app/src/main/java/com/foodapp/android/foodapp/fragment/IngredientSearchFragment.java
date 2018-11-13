@@ -387,14 +387,15 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
     /* Search based on the overall ingredients available - Sorted by lower weighted recipes */
     public void weightedSearchByIngredients(List <Match> recipeDataList, int ingredients){
         for (Match recipe : recipeDataList){
-            recipe.setWeight(recipe.getIngredients().size()/(float)ingredients);
-            //System.out.println("Recipe: " + recipe.getRecipeName() + "| Weight: " + recipe.getWeight());
+            //recipe frequency + rating/10
+            recipe.setWeight(((float)ingredients/((float)recipe.getIngredients().size()))+((float)recipe.getRating()/((float)10)));
+            System.out.println("Recipe: " + recipe.getRecipeName() + "| Weight: " + recipe.getWeight());
         }
         // Sorts the ArrayList based on weight score
         Collections.sort(recipeDataList, new Comparator<Match>() {
             @Override
             public int compare(Match recipe1, Match recipe2) {
-                return Float.compare(recipe1.getWeight(), recipe2.getWeight());
+                return Float.compare( recipe2.getWeight(),recipe1.getWeight());
             }
         });
     }
