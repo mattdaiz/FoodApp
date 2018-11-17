@@ -212,5 +212,9 @@ public class RecipeActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(browserIntent);
     }
 
-
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        progressBar.setVisibility(View.INVISIBLE);
+    }
 }
